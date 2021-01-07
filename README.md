@@ -1,6 +1,6 @@
-# 依赖 vue，搭建后台框架，简单易用（vue-admin-master）
+## 依赖 vue，搭建后台框架，简单易用（vue-admin-master）
 
-## 下载依赖
+### 下载依赖
 
 ```
 yarn install

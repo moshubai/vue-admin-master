@@ -1,0 +1,101 @@
+// base
+html,
+body {
+  -webkit-overflow-scrolling: touch;
+  background-color: @background-color;
+  font-size: 14px;
+}
+#app,
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body *,
+section,
+body *::before,
+body *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+ul,
+li,
+ol,
+ul li,
+ol li {
+  list-style: none;
+}
+a:active,
+a:hover,
+a {
+  border-bottom: none;
+  text-decoration: none;
+}
+a:-webkit-any-link:active {
+  color: transparent;
+}
+
+// 滚动条
+::-webkit-scrollbar-track-piece {
+  //滚动条凹槽的颜色，还可以设置边框属性
+  background-color: transparent;
+}
+::-webkit-scrollbar {
+  //滚动条的宽度
+  height: 10px;
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  //滚动条的设置
+  background-color: #c1c1c1;
+  background-clip: padding-box;
+  min-height: 28px;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #c1c1c1;
+}
+
+.loop(@counter) when (@counter > 0) {
+  .p-@{counter} {
+    padding: (1px * @counter);
+  }
+  .pt-@{counter} {
+    padding-top: (1px * @counter);
+  }
+  .pr-@{counter} {
+    padding-right: (1px * @counter);
+  }
+  .pb-@{counter} {
+    padding-bottom: (1px * @counter);
+  }
+  .pl-@{counter} {
+    padding-left: (1px * @counter);
+  }
+  .m-@{counter} {
+    margin: (1px * @counter);
+  }
+  .mt-@{counter} {
+    margin-top: (1px * @counter);
+  }
+  .mr-@{counter} {
+    margin-right: (1px * @counter);
+  }
+  .mb-@{counter} {
+    margin-bottom: (1px * @counter);
+  }
+  .ml-@{counter} {
+    margin-left: (1px * @counter);
+  }
+  .fz-@{counter} {
+    font-size: (1px * @counter);
+  }
+  .loop((@counter - 1)); // 递归调用自身
+}
+.loop(100);
