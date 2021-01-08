@@ -1,17 +1,17 @@
 <template>
   <el-menu
-    default-active="1"
+    :default-active="openName"
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
   >
-    <router-link to="/">
-      <el-menu-item index="1">
+    <router-link :to="item.path" v-for="(item,i) in menuList" :key="i">
+      <el-menu-item :index="item.name">
         <i class="el-icon-location"></i>
-        <span slot="title">首页</span>
+        <span slot="title">{{item.meta.title}}</span>
       </el-menu-item>
     </router-link>
-    <router-link to="/map">
+    <!-- <router-link to="/map">
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span slot="title">地图</span>
@@ -35,28 +35,45 @@
         <el-menu-item index="5-2">选项2</el-menu-item>
         <el-menu-item index="5-3">选项3</el-menu-item>
       </el-menu-item-group>
-      <!-- <el-submenu index="5-4">
-        <template slot="title">选项4</template>
-        <el-menu-item index="5-4-1">选项1</el-menu-item>
-      </el-submenu> -->
-    </el-submenu>
+    </el-submenu> -->
   </el-menu>
 </template>
 
 <script>
+  import { frameInRoutes } from '@/router/routes'
   export default {
     data () {
-      return {};
+      return {
+        openName: 'home-page-index'
+      }
+    },
+
+    watch: {
+      $route: {
+        handler (val) {
+          this.handleUpdateMenuState(val)
+        },
+        immediate: true
+      }
+    },
+    computed: {
+      menuList () {
+        return frameInRoutes[0].children
+      }
     },
     methods: {
+      handleUpdateMenuState (val) {
+        const { name } = val
+        this.openName = name
+      },
       handleOpen (key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key, keyPath)
       },
       handleClose (key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key, keyPath)
       }
     }
-  };
+  }
 </script>
 
 <style lang="less" scoped></style>

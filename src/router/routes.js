@@ -14,6 +14,10 @@ const frameIn = [
       {
         path: '/home',
         name: 'home-page-index',
+        meta: {
+          auth: true,
+          title: '首页'
+        },
         component: () => import('@/pages/home/index.vue')
       },
       ...map
@@ -112,6 +116,7 @@ const frameOut = [
 // ];
 
 // 导出需要显示菜单的
+export const frameInRoutes = frameIn
 // 重新组织后导出
 export default [
   ...frameIn,
