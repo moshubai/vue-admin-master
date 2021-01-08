@@ -1,5 +1,13 @@
 module.exports = {
   presets: [
-    '@vue/cli-plugin-babel/preset'
-  ]
+    ['@vue/app', {
+      useBuiltIns: 'entry'
+    }]
+  ],
+  env: {
+    production: {
+      // presets: ['minify'],
+      plugins: ['transform-remove-debugger', 'transform-remove-console']
+    }
+  }
 }

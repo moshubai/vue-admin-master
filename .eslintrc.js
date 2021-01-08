@@ -5,15 +5,31 @@ module.exports = {
   },
   'extends': [
     'plugin:vue/essential',
-    'eslint:recommended'
+    '@vue/standard'
   ],
+  rules: {
+    // 'indent': ['off', 2],
+    "semi": [0],
+    'indent': 'off',
+    'vue/script-indent': [
+      'error',
+      2,
+      {
+        'baseIndent': 1
+      }
+    ],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    
+    'vue/no-parsing-error': [
+        2,
+      {
+        "x-invalid-end-tag": false
+      }
+    ]
+  },
   parserOptions: {
     parser: 'babel-eslint'
-  },
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-unused-vars': 'off'
   },
   overrides: [
     {

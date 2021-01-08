@@ -62,6 +62,7 @@ module.exports = {
             }
         }
     },
+    
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/@vue/cli-service/lib/config/base.js
     chainWebpack: config => {
         /**

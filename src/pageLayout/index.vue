@@ -15,13 +15,13 @@
 </template>
 
 <script>
-export default {
-  name: "PageLayout",
-  components: {
-    LeftMenu: () => import("./left-menu"),
-    HeaderCont: () => import("./header-cont"),
-  },
-};
+  export default {
+    name: 'PageLayout',
+    components: {
+      LeftMenu: () => import('./left-menu'),
+      HeaderCont: () => import('./header-cont')
+    }
+  };
 </script>
 
 <style lang="less" scoped></style>

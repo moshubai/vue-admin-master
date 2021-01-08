@@ -4,18 +4,19 @@
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
-    
   >
     <router-link to="/">
-      <el-menu-item  index="1">
+      <el-menu-item index="1">
         <i class="el-icon-location"></i>
         <span slot="title">首页</span>
       </el-menu-item>
     </router-link>
-    <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <span slot="title">地图</span>
-    </el-menu-item>
+    <router-link to="/map">
+      <el-menu-item index="2">
+        <i class="el-icon-menu"></i>
+        <span slot="title">地图</span>
+      </el-menu-item>
+    </router-link>
     <el-menu-item index="3">
       <i class="el-icon-document"></i>
       <span slot="title">图表</span>
@@ -43,19 +44,19 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+  export default {
+    data () {
+      return {};
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-  },
-};
+    methods: {
+      handleOpen (key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose (key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
+  };
 </script>
 
 <style lang="less" scoped></style>

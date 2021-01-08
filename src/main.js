@@ -1,19 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-
 import router from './router'
 
 import store from './store'
 
 import '@/assets/icons'
 
-// ElementUI 
+// ElementUI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 // style
-import "./style/index.less"
+import './style/index.less'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

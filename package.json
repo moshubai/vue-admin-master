@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.9.7",
     "element-ui": "^2.14.1",
+    "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
     "mockjs": "^1.1.0",
     "qs": "^6.9.4",
@@ -25,20 +26,32 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/eslint-config-standard": "^3.0.0",
     "@vue/test-utils": "^1.0.3",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-plugin-transform-remove-debugger": "^6.9.4",
     "hard-source-webpack-plugin": "^0.13.1",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
+    "lint-staged": "^7.2.0",
     "svg-sprite-loader": "^5.2.1",
     "vue-template-compiler": "^2.6.11"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <!-- <link rel="stylesheet" href="./static/style/css/main.css"> -->
+    <link rel="stylesheet" href="../static/style/css/mainNew.css">
+    <link rel="stylesheet" href="../static/style/css/search.css">
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/dreamlu.css" />
+    <link rel="stylesheet" type="text/css" href="./css/map.css" />
+
+    <!-- [图标样式] -->
+    <!-- <link rel="stylesheet" type="text/css" href="./iconfont/iconfont.css" /> -->
+    <!-- 地图瓦片 -->
+    <script type="text/javascript" src="http://192.168.0.171/map_load.js"></script>
+    <!-- [提交表单] -->
+    <script type="text/javascript" src="../static/jquery.form.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/echarts.js" charset="utf-8"></script>
+    <script src="../static/node_modules/babel-core/browser.min.js"></script>
+    <script type="text/javascript" src="../static/js/echartbase.js" charset="utf-8"></script>
+    <!-- [扩展window] -->
+    <script type="text/javascript" src="../static/easyui/BaseWindow.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/public.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/map.js"></script>
+    <style>
+
+    </style>
+</head>
+<!-- overflow-y: hidden; -->
+
+<body style=" height: 100%;">
+    <div class="clearfix  w box-z" style=" height: 100%; padding-bottom: 238px; box-sizing: border-box ;">
+        <section class="map_section" id="appmap">
+            <div class="map_box" id="mapbox"></div>
+            <div class="float_modals">
+                <div class="modal_search_warp">
+                    <ul>
+                        <li @click="searchFuns"><span></span></li>
+                        <li>
+                            <input type="text" :value='searchText' @change="onChange" placeholder="单位/班组/开关站">
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal_select_warp">
+                    <div class="select_left">
+                        <div class="selectinpt">
+                            <input placeholder="请选择供电公司" :value='haveChoose[0].name' type="text"
+                                @focus="getCompanyFn(0)" />
+                        </div>
+                        <div v-if='selectPrShowIndex===0' class="float_show_box1 float_show_pr"
+                            :style="{display: (selectPrShowIndex === 0 ? 'block' : 'none')}">
+                            <ul>
+                                <li v-for="item in supplyCompany" :key='item.name' :class="{'active':item.active}"
+                                    @click="chooseCompFn(item)"><span>{{item.name}}</span></li>
+                            </ul>
+                            <div class="select_btns">
+                                <span class="cancel" @click="cancle(0)">清除</span>
+                                <span class="okey" @click="okeyFnOne">确定</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="select_right">
+                        <div class="selectinpt">
+                            <input placeholder="请选择开关站" type="text" :value='haveChoose[2].name'
+                                @focus="getCompanyFn(2)" />
+                        </div>
+
+                        <div v-if='selectPrShowIndex===2' class="float_show_box2 float_show_pr"
+                            :style="{display: (selectPrShowIndex === 2 ? 'block' : 'none')}">
+                            <ul>
+                                <li v-for="item in onpendzList" :key='item.name' :class="{'active':item.active}"
+                                    @click="choosegzListFn(item)"><span>{{item.name}}</span></li>
+                            </ul>
+                            <div class="select_btns">
+                                <span class="cancel" @click="cancle(2)">清除</span>
+                                <span class="okey" @click="okeyFnOne">确定</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="select_center">
+                        <div class="selectinpt">
+                            <input placeholder="请选择班组" type="text" :value="haveChoose[1].name"
+                                @focus="getCompanyFn(1)" />
+                        </div>
+
+                        <div v-if='selectPrShowIndex===1' class="float_show_box3 float_show_pr"
+                            :style="{display: (selectPrShowIndex === 1 ? 'block' : 'none')}">
+                            <ul>
+                                <li v-for="item in banzhusList" :key='item.name' :class="{'active':item.active}"
+                                    @click="chooseBzFn(item)"><span>{{item.name}}</span></li>
+                            </ul>
+                            <div class="select_btns">
+                                <span class="cancel" @click="cancle(1)">清除</span>
+                                <span class="okey" @click="okeyFnOne">确定</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal_list_warp">
+                    <ul class="list_tabs">
+                        <li @click="tabsClick('total')" :class="{'active':tabStatus=='total'}">
+                            <span>总数({{needOjb.totalNum || 0}})</span>
+                        </li>
+                        <li @click="tabsClick('normal')" :class="{'active':tabStatus=='normal'}">
+                            <span>正常({{needOjb.normalNum || 0}})</span>
+                        </li>
+                        <li @click="tabsClick('warn')" :class="{'active':tabStatus=='warn'}">
+                            <span>异常({{needOjb.warnNum || 0}})</span>
+                        </li>
+                        <li @click="tabsClick('offline')" :class="{'active':tabStatus=='offline'}">
+                            <span>离线({{needOjb.offlineNum || 0}})</span>
+                        </li>
+                    </ul>
+                    <ul class="sopur_list_ul" v-if="tabStatus !==''"
+                        :style="{display: (tabStatus !=='' ? 'block' : 'none')}">
+                        <li @click="companyFnc(item)" ref="company" v-for="(item,index) in allDataList" :key="index">
+                            <h4 :class="{'active':isShowCompy == item.dwmc}"><span>{{item.dwmc}}</span></h4>
+                            <div v-show="isShowCompy == item.dwmc">
+                                <dl class="sopur_list" v-if="item.children" v-for="child in item.children"
+                                    :key="child.id">
+                                    <dt @click.stop="contShoeFnc(child)">
+                                        <h5 :class="{'active':contShoe == child.dwmc}">
+                                            <span><em>{{child.dwmc}}</em></span>
+                                            <span>正常<em>({{child.normalNum}})</em></span>
+                                            <span>异常<em>({{child.warnNum}})</em></span>
+                                            <span>离线<em>({{child.offlineNum}})</em></span>
+                                        </h5>
+                                    </dt>
+                                    <div v-show="contShoe == child.dwmc">
+                                        <dd :class="{'active':kgzActiveChoose==childkgz.name}" v-if="child.kgz"
+                                            v-for="childkgz in child.kgz" :key="childkgz.name"
+                                            @click.stop="kgzPositioningFn(childkgz)">
+                                            <div class="list_left">
+                                                <h3>{{childkgz.name}}</h3>
+                                                <p>{{childkgz.address}}</p>
+                                            </div>
+                                            <!-- <div class="list_right">
+                                        <img :src='imgJZ' alt="" />
+                                    </div> -->
+                                        </dd>
+                                    </div>
+
+                                </dl>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div v-if="isLoading">
+                <div class="datagrid-mask" style="display:block"></div>
+                <div class="datagrid-mask-msg"
+                    style="display: block; left: 50%; height: 16px; margin-left: -85.5px; line-height: 16px;">
+                    正在处理，请稍待。。。</div>
+            </div>
+            <div v-if="modelInfoShow" class="modal_map_info">
+                <div class="content_infos">
+                    <h3>查看<span class="close" @click="close"><img src="./img/close.png" alt=""></span></h3>
+                    <ul>
+                        <li v-for="(item,index) in modalContInfo" ::key="index">
+                            <div v-if="item.nodeName=='分发'" class="tips "><span
+                                    class="icons1"><em>{{item.nodeName}}</em></span>
+                            </div>
+                            <div v-else-if="item.nodeName=='退单'" class="tips "><span
+                                    class="icons2"><em>{{item.nodeName}}</em></span></div>
+                            <div v-else-if="item.nodeName=='处理'" class="tips "><span
+                                    class="icons3"><em>{{item.nodeName}}</em></span></div>
+                            <div v-else-if="item.nodeName.slice(0,2)=='审批'" class="tips "><span
+                                    class="icons4"><em>{{item.nodeName}}</em></span></div>
+                            <div v-else class="tips  "><span class="icons5"><em>{{item.nodeName}}</em></span></div>
+
+                            <div class="conts">
+                                <p>详情：{{item.approveOpinion}}</p>
+                                <p>操作人：{{item.createName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作时间：{{item.createDate}}
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+    <script type="text/javascript" src="./js/vue.min.js"></script>
+    <script>
+        // 节流函数
+        function throttle(fn, delay = 100) {
+            let timer = null
+            return data => {
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    fn()
+                }, delay)
+            }
+        }
+
+
+        // 1.创建vue实例
+        const BMapURL = 'http://192.168.0.171/map_load.js'
+        window.map = null
+        const app = new Vue({
+            el: '#appmap',
+            data() {
+                return {
+                    // imgJZ: './img/dsdf.png',
+                    searchText: '',//搜索
+                    needOjb: {},//总数、正常、离线、告警
+                    allDataList: [], //所有数组
+                    allKguanzArrList: [],//所有开关站
+                    supplyCompany: [],//供电公司
+                    banzhusList: [],//班组
+                    onpendzList: [],//开关站
+                    selectPrShowIndex: null,
+                    haveChoose: [{}, {}, {}],
+                    tabStatus: '',
+                    kgzActiveChoose: '',
+                    mapAddressIcon: "./img/map-adress.png",
+                    mapAddressIcon2: "./img/dizhi-17.png",
+                    mapAddressIcon3: "./img/dizhi-172.png",
+                    mapAddressIcon4: "./img/dizhi-171.png",
+                    isLoading: true,
+                    isFlag: false, // 强制解决addEventListener执行两次
+                    tabIndex: 0,
+                    logFlag: 'normal',
+                    devEmlData: [],
+                    basicData: {},
+                    poxl: {},
+                    modalContInfo: [],
+                    modelInfoShow: false,
+                    page: 1,
+                    isShowCompy: null,
+                    contShoe: null
+
+                }
+            },
+            async created() {
+                // console.log('1');
+                this.selectPrShowIndex = null
+                await this.initAddCreatedMap()
+                await this.getAllDataFn(0, '')
+                await this.getDataFun()
+            },
+            mounted() {
+            },
+            methods: {
+                companyFnc(item) {
+                    let that = this
+                    if (item.dwmc != that.isShowCompy) {
+                        that.isShowCompy = item.dwmc
+                    } else {
+                        that.isShowCompy = null
+                    }
+                },
+                contShoeFnc(item) {
+                    let that = this
+                    if (item.dwmc != that.contShoe) {
+                        that.contShoe = item.dwmc
+                    } else {
+                        that.contShoe = null
+                    }
+                },
+                // 所有数据，初始化
+                getAllDataFn(chooseIndex = 0, valTip = "total", isrender) {
+                    var that = this
+                    // console.log(that.searchText);
+                    that.tabStatus = ''
+                    that.allDataList = []
+                    that.allKguanzArrList = []
+                    var params = {
+                        dwmc: that.searchText,//供电单位
+                        status: valTip || 'total',//状态:status(必填) 取值范围: total,normal,offline,warn 默认为total
+                        dwbmid: '',//登陆用户的供电公司的dwbmid属性
+                    }
+                    $.post(pathx + "ptm/envir/findDataByOrg", params, function (res) {
+                        that.needOjb = res.data
+                        if (res.data.list) {
+                            // switch (+chooseIndex) {
+                            //     case 0:
+
+                            //         break;
+                            //         case 1:
+
+                            //         break;
+
+                            //     default:
+                            //         break;
+                            // }
+                            that.allDataList = res.data.list[0].children
+                            if (!isrender) {
+                                that.getAllKguanZDataFn()
+                                // that.initCreatedMap(undefined, undefined, undefined, 11)
+                                that.initCreatedBmap()
+                                that.initAddMarker()
+                                that.bmapZoom()
+                            }
+                            that.tabStatus = valTip
+                        }
+                        that.isLoading = false
+
+                    })
+                },
+                initAddCreatedMap() { //创建 map.js
+                    if (typeof BMap === 'undefined') {
+                        // 插入script脚本
+                        let scriptNode = document.createElement('script')
+                        scriptNode.setAttribute('type', 'text/javascript')
+                        scriptNode.setAttribute('src', BMapURL)
+                        document.body.appendChild(scriptNode)
+                    }
+                },
+                // long = '121.477091', lat = '31.26927'
+                initCreatedBmap(long = '121.35591', lat = '31.26927', zoomIndex = 11) {  //创建map，并放储存,
+                    let that = this
+
+                    // enableMapClick	Boolean	是否开启底图可点功能，默认启用
+                    let map = new BMap.Map('mapbox', { minZoom: 10, maxZoom: 18, enableMapClick: false })
+                    let point = new BMap.Point(long, lat)
+                    map.centerAndZoom(point, zoomIndex)
+                    map.enableScrollWheelZoom(true);
+                    window.map = map; // 将map变量存储在全局
+                },
+                initAddMarker(arr) {
+                    // console.log(arr, 'AddMarker');
+                    let that = this
+                    let dataArr = arr || that.allDataList
+                    // console.log(dataArr, '5');
+                    let bigSize = new BMap.Size(70, 70)
+                    let minSize = new BMap.Size(42, 41)
+                    let bigKgzOffset = new BMap.Size(-15, -35)
+                    let minKgzOffset = new BMap.Size(-30, -30)
+                    let icon1 = new BMap.Icon(that.mapAddressIcon, bigSize)
+                    let icon2 = null
+                    dataArr.map((item) => {
+                        switch (item.state) {
+                            case 'normal':
+                                icon2 = new BMap.Icon(that.mapAddressIcon2, minSize)
+                                break;
+                            case 'offline':
+                                icon2 = new BMap.Icon(that.mapAddressIcon3, minSize)
+                                break;
+
+                            default:
+                                icon2 = new BMap.Icon(that.mapAddressIcon4, minSize)
+                                break;
+                        }
+                        let mapIcon = item.nodeType == '1' ? icon1 : icon2
+                        mapIcon.setImageSize(item.nodeType == '1' ? bigSize : minSize) //背景图 大小
+
+                        let point = new window.BMap.Point(item.longitude, item.latitude)
+                        let labelContent = `${item.nodeType == '1' ? item.dwmc : item.name}`
+                        let optsion = {
+                            point: point,
+                            offset: item.nodeType == '1' ? bigKgzOffset : minKgzOffset,
+                            enableMassClear: true
+                        }
+                        let marker = new window.BMap.Marker(point, { icon: mapIcon })
+                        let label = new window.BMap.Label(labelContent, optsion)
+                        // marker.setIcon(mapIcon)
+                        marker.setLabel(label)
+                        label.setStyle({ // 设置label的样式
+                            width: '100px',
+                            height: '40px',
+                            lineHeight: '30px',
+                            textAlign: 'center',
+                            color: '#ffffff',
+                            fontSize: '15px',
+                            border: '0px',
+                            borderRadius: '5px',
+                            background: 'url("./img/label2.png")',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'contain',
+                        })
+                        map.addOverlay(marker)
+                        that.addClickInfo(marker, item)
+                    })
+
+                },
+                bmapZoom() {
+                    let that = this
+                    map.addEventListener("zoomend", function (e) {
+                        let zoomLevel = map.getZoom();
+                        if (zoomLevel < 15) {
+                            map.clearOverlays(); //清除地图上所有覆盖物  
+                            throttle(that.initAddMarker(that.allDataList), 1000);
+                        } else {
+                            map.clearOverlays();
+                            throttle(that.initAddMarker(that.allKguanzArrList), 1000);
+                        }
+                    });
+                },
+                addClickInfo(marker, item) {
+                    let that = this
+                    marker.addEventListener('click', function (e) {
+                        let company = e.target.getLabel().content
+                        if (item.nodeType == '1') {
+                            that.searchText = company
+                            that.getBanzAllListFn(company, item)
+                            that.getAllDataFn(0, that.tabStatus, 'isrender')
+                        } else {
+                            that.getKKgzData(e, item)
+
+                        }
+                    })
+                },
+                async getKKgzData(poxl, item) {
+                    // console.log(poxl, item);
+                    let that = this
+                    that.isLoading = true
+                    that.basicData = {}
+                    that.poxl = poxl
+
+                    const { id } = item
+                    await $.get(pathx + "ptm/envir/findKgzData?id=" + id, function (res) {
+                        // console.log(res.data, '基本信息');
+                        that.basicData = res.data
+                    })
+
+                    await that.tabClickFn(0, undefined)
+                },
+                tabClickFn(val, flag = 'all', isEnty = true) {
+                    // console.log(val, 'zuiwaic');
+                    let that = this
+                    that.isLoading = true
+                    that.tabIndex = val
+                    that.logFlag = flag
+                    console.log(val);
+                    if (isEnty) {
+                        that.devEmlData = []
+                    }
+
+                    const { id } = that.basicData
+                    switch (val) {
+                        case 0:
+                            that.page = 1
+                            let params = {
+                                id: id,//站点ID ： （必填）
+                                state: flag,//输入状态：（必填）取值范围: normal 正常,warn 预警,serious 严重,danger 危急,offline 离线
+                            }
+                            $.post(pathx + "ptm/envir/findDeviceData", params, function (res) {
+                                // console.log(res, '设备终端');
+                                let dataRes = res.data || []
+                                that.devEmlData = dataRes
+                                that.isLoading = false
+                                that.getInfoFn(that.poxl, that.basicData, that.tabIndex, that.logFlag, that.devEmlData)
+                            })
+                            break;
+                        case 1:
+                            let params2 = {
+                                id: id,//站点ID ： （必填）
+                                page: that.page,
+                                rows: 6,
+                            }
+                            $.get(pathx + "ptm/envir/deviceList", params2, function (res) {
+                                // console.log(res.rows, '终端台账');
+                                let dataRes = res.rows || []
+                                that.devEmlData = that.devEmlData.concat(dataRes)
+                                that.isLoading = false
+                                that.getInfoFn(that.poxl, that.basicData, that.tabIndex, that.logFlag, that.devEmlData)
+                            })
+                            break;
+                        case 2:
+                            that.page = 1
+                            that.baseWin(that.basicData)
+                            that.isLoading = false
+                            break;
+                        default:
+                            that.page = 1
+                            $.get(pathx + "ptm/envir/findTicketBySiteId?siteId=" + id, function (res) {
+                                // console.log(res, '工单进度');
+                                let dataRes = res.data || []
+                                dataRes.map((item) => {
+                                    // 1:新建 2:待接单 3:处理中 4:审核中
+                                    switch (+item.status) {
+                                        case 1:
+                                            item['statusTxt'] = '新建'
+                                            break;
+                                        case 2:
+                                            item['statusTxt'] = '待接单'
+                                            break;
+                                        case 3:
+                                            item['statusTxt'] = '处理中'
+                                            break;
+                                        default:
+                                            item['statusTxt'] = '审核中'
+                                            break;
+                                    }
+                                })
+                                that.devEmlData = dataRes
+                                that.isLoading = false
+                                that.getInfoFn(that.poxl, that.basicData, that.tabIndex, that.logFlag, that.devEmlData)
+                            })
+                            break;
+                    }
+
+
+                },
+                showModal(val) {
+                    let that = this
+                    that.modalContInfo = val.listTododata || []
+                    setTimeout(() => {
+                        that.modelInfoShow = true
+                    })
+
+                },
+                close() {
+                    let that = this
+                    that.modelInfoShow = false
+                },
+                baseWin(data) {
+                    // console.log(data)
+                    const { company, name, id } = data
+                    $.baseWin.open({
+                        id: "createdZdModalInfo",
+                        title: `${company} - ${name}`,
+                        url: "./siteManage/sitXmanage.html?sid=" + id,
+                        width: 1200,
+                        height: 550,
+                        modal: true,
+                        closable: true,
+                        data: data,
+                        maximizable: true, //最大最小
+                        // callback: listManufacturer
+                    });
+                },
+                linkOtherUrl(item) {
+                    let that = this
+                    console.log(item, that.basicData);
+                    const { name, testpointName } = item
+                    const { dwbmid, id } = that.basicData
+                    let url = './alarmManage/alarmInfo.html?companyId=' + dwbmid + '&zdid=' + id + '&name=' + name + '&testpointName=' + testpointName
+                    // parent.Open('告警查询', url);
+
+                    $.baseWin.open({
+                        id: "createdgjLinksModalInfo",
+                        title: `告警查询`,
+                        url: url,
+                        width: 1200,
+                        height: 550,
+                        modal: true,
+                        closable: true,
+                        data: item,
+                        // callback: listManufacturer
+                    });
+
+
+                },
+
+                getInfoFn(e, item, tabIndex, logFlag, devEmlData, isRun = true) {
+                    let that = this
+                    let optsion = {
+                        width: 390, // 信息窗口宽度
+                        height: 0, // 信息窗口高度
+                        title: ``, // 信息窗口标题
+                        enableMessage: true // 设置允许信息窗发送短息
+                    }
+                    var p = e.target
+                    var point = new window.BMap.Point(
+                        p.getPosition().lng,
+                        p.getPosition().lat
+                    )
+
+                    let MyComponent = Vue.extend({
+                        template: `<div class="mapgrayInfo" ><div class="title">{{item.name}}</div>`
+                            + `<div class="content"><h5>状态：<span><em @click="app.tabClickFn(0,'normal')">正常({{item.normalNum}})</em><em @click="app.tabClickFn(0,'warn')">预警({{item.warnNum}})</em><em @click="app.tabClickFn(0,'serious')">严重({{item.seriousNum}})</em><em @click="app.tabClickFn(0,'danger')">危急({{item.dangerNum}})</em><em @click="app.tabClickFn(0,'offline')">离线({{item.offlineNum}})</em></span></h5><h5>地址：<span class="address">{{item.address}}</span></h5>`
+                            + `<ul class="mapTables"><li @click="app.tabClickFn(0,undefined)" :class="{'active':tabIndex==0}">终端状态</li><li @click="app.tabClickFn(1,undefined)" :class="{'active':tabIndex==1}">终端台账</li><li @click="app.tabClickFn(2,undefined)" :class="{'active':tabIndex==2}">分布图</li><li @click="app.tabClickFn(3,undefined)" :class="{'active':tabIndex==3}">工单进度</li></ul>`
+                            + '<div class="maptable">'
+                            + '<ul v-if="tabIndex === 0" ><li class="box1" v-if="devEmlData.length > 0" v-for="(its,index) in devEmlData" :key="index" ><span>{{its.name}}</span><span>{{its.testpointName}}</span><span>{{its.value}}</span><span @click="app.linkOtherUrl(its)"  :class="iconFn(its)"></span></li><li v-if="devEmlData.length<=0" class="zwsjData">暂无数据</li></ul>'
+                            + '<ul v-if="tabIndex === 1" @scroll="scrollCon"><li class="box2"  v-if="devEmlData.length > 0" v-for="(its,index) in devEmlData" :key="index" @mouseenter="showHove = index" @mouseleave="showHove = null"  ><span>{{its.deviceName}}</span><span>{{its.testPointName}}</span><div class="hovebox" v-show="showHove == index"><p>{{its.deviceName}}<p>{{its.testPointName}}</p><p>{{its.manufacturerName}}</p><p>{{its.factoryDate}}</p><p>{{its.owner}}</p></div></li><li v-if="devEmlData.length<=0" class="zwsjData">暂无数据</li></ul>'
+                            + '<ul v-if="tabIndex === 3"><li class="box3"  v-if="devEmlData.length > 0" v-for="(its,index) in devEmlData" :key="index" ><span>{{its.ticketId}}</span><span>{{its.statusTxt}}</span><span @click="app.showModal(its)"  class="looks">查看</span></li><li v-if="devEmlData.length<=0" class="zwsjData">暂无数据</li></ul>'
+                            + '</div></div></div>',
+                        data() {
+                            return {
+                                item: item,
+                                tabIndex: tabIndex,
+                                logFlag: logFlag,
+                                devEmlData: devEmlData,
+                                showHove: null
+                            }
+                        },
+                        mounted() {
+
+                        },
+                        computed: {
+
+                        },
+                        methods: {
+                            iconFn(item) {
+                                let _this = this
+                                let clasv = `icons icon-${item.code} icon-${_this.logFlag} icon-${item.status} `
+                                return clasv
+                            },
+                            scrollCon(e) {
+                                // console.log('a', e);
+                                let _this = this
+                                if (_this.tabIndex == 1) {
+
+                                    let conScrollHeight = e.target.scrollHeight   // 可以滚动区域的高度
+                                    let conClientHeight = e.target.clientHeight   // 区域内容的高度
+                                    let conScrollTop = e.target.scrollTop		 //  内容滚动了的高度
+                                    // 内容滚动了的高度 +  区域内容的高度 >= 可以滚动区域的高度 
+                                    // 则证明滑动到了页面底部，这个时候就去处理加载更多的逻辑
+                                    console.log(conScrollHeight, conClientHeight, conScrollTop)
+                                    if (conScrollTop + conClientHeight >= conScrollHeight) {
+                                        that.page++
+                                        app.tabClickFn(_this.tabIndex, 'all', false)
+                                    }
+                                }
+
+
+                            }
+
+                        },
+                    });
+
+                    let component = new MyComponent().$mount();
+                    var infoWindow = new window.BMap.InfoWindow(component.$el, optsion) // 创建信息窗口对象
+                    // infoWindow.addEventListener('close', function (event) {
+                    //     console.log(event);
+
+                    // })
+
+                    map.openInfoWindow(infoWindow, point) // 开启信息窗口
+                },
+
+
+                getEveryList(arr) {
+                    var that = this
+                    arr.map((item) => {
+                        if (item.nodeType == '3') {
+                            that.allKguanzArrList.push(item)
+                        }
+                        if (item.children && item.children.length > 0) {
+                            that.getEveryList(item.children)
+                        }
+                        if (item.kgz && item.kgz.length > 0) {
+                            that.getEveryList(item.kgz)
+                        }
+
+                    })
+                    return that.allKguanzArrList
+                },
+                async getAllKguanZDataFn() {
+                    var that = this
+                    function unique(arr) {
+                        return Array.from(new Set(arr))
+                    }
+                    let data = unique(that.getEveryList(that.allDataList))
+                    that.allKguanzArrList = data
+                },
+                getBanzAllListFn(company, chooseItem) {
+                    var that = this
+                    that.isLoading = true
+                    // that.allDataList = []
+                    that.allKguanzArrList = []
+                    // console.log(chooseItem);
+                    const { longitude, latitude, dwbmid } = chooseItem
+                    let params = {
+                        dwmc: company,//供电单位
+                        dwbmid: dwbmid,
+                        status: 'total',//状态:status(必填) 取值范围: total,normal,offline,warn 默认为total
+                    }
+                    $.post(pathx + "ptm/envir/findKgzByDwbmid", params, function (res) {
+                        if (res.data.kgz) {
+                            let kgzCone = res.data.kgz
+                            // that.initCreatedMap(kgzCone, kgzCone[1].longitude, kgzCone[1].latitude, 15)
+                            // that.allDataList = [res.data]
+                            that.allKguanzArrList = kgzCone
+                            map.clearOverlays()
+                            that.initCreatedBmap(kgzCone[1].longitude, kgzCone[1].latitude, 15)
+                            that.initAddMarker(kgzCone)
+                        }
+
+                        that.isLoading = false
+                    })
+                },
+                getDataFun() {
+                    var that = this
+                    that.isLoading = true
+                    // 供电单位
+                    $.get(pathx + 'ptm/device/listCompany', function (res) {
+                        var list = res.list
+                        list.map((item) => {
+                            item['active'] = false
+                        })
+                        that.supplyCompany = list
+                        that.isLoading = false
+                    })
+                },
+                getCompanyFn(index) {
+                    var that = this
+                    that.selectPrShowIndex = index
+                },
+
+
+
+                handleTextFn() {
+                    var textVal = ''
+                    var newArr = []
+                    var that = this
+                    that.haveChoose.map((item) => {
+                        // console.log(item);
+                        if (Object.keys(item).length !== 0) {
+                            newArr.push(item.name)
+                        }
+                    })
+                    if (newArr.length > 0) {
+                        newArr.map((item) => {
+                            textVal += item + "/"
+                        })
+                        if (textVal.length > 0) {
+                            textVal = textVal.substr(0, textVal.length - 1);
+                        }
+                    } else {
+                        textVal = ''
+                    }
+                    return textVal
+                },
+                chooseCompFn(item) {
+                    var that = this
+                    that.haveChoose[0] = item
+                    that.searchText = that.handleTextFn()
+                    that.supplyCompany.map((val) => {
+                        val.active = false
+                        if (val.code === item.code) {
+                            val.active = true
+                        }
+                    })
+                },
+                chooseBzFn(item) {
+                    var that = this
+                    that.haveChoose[1] = item
+                    that.searchText = that.handleTextFn()
+                    that.banzhusList.map((val) => {
+                        val.active = false
+                        if (val.code === item.code) {
+                            val.active = true
+                        }
+                    })
+                },
+                choosegzListFn(item) {
+                    var that = this
+                    that.haveChoose[2] = item
+                    that.searchText = that.handleTextFn()
+                    that.onpendzList.map((val) => {
+                        val.active = false
+                        if (val.code === item.code) {
+                            val.active = true
+                        }
+                    })
+                },
+                cancle(val) {
+                    var that = this
+                    that.isLoading = true
+                    switch (val) {
+                        case 0:
+                            that.haveChoose = [{}, {}, {}]
+                            break;
+                        case 1:
+                            that.haveChoose[1] = {}
+                            that.haveChoose[2] = {}
+                            break;
+                        default:
+                            that.haveChoose[2] = {}
+                            break;
+                    }
+                    that.selectPrShowIndex = null
+                    that.searchText = that.handleTextFn()
+                    that.getAllDataFn(0)
+                },
+                okeyFnOne() {
+                    var that = this
+                    that.isLoading = true
+                    switch (that.selectPrShowIndex) {
+                        case 0:
+                            that.getbanzhusListFn()
+                            that.getAllDataFn(0)
+                            that.haveChoose[1] = {}
+                            that.haveChoose[2] = {}
+                            break;
+                        case 1:
+                            that.haveChoose[2] = {}
+                            that.getonpendzListFn()
+                            that.getAllDataFn(1)
+                            break;
+                        default:
+                            that.getAllDataFn(2)
+                            break;
+                    }
+                    that.selectPrShowIndex = null
+                    that.searchText = that.handleTextFn()
+                },
+                getbanzhusListFn() {
+                    var that = this
+                    var dwbmid = that.haveChoose[0].code
+                    //获取班组列表
+                    $.get(pathx + 'ptm/device/listPerson?dwbmid=' + dwbmid, function (res) {
+                        // console.log(res, '====================================');
+                        var list = res.list
+                        Array.isArray(list) &&
+                            list.map((item) => {
+                                item['active'] = false
+                            })
+                        that.banzhusList = list
+                    })
+
+                },
+                getonpendzListFn() {
+                    var that = this
+                    var maintenancerId = that.haveChoose[1].code
+                    //获取开关站
+                    $.get(pathx + 'ptm/kgz/selectKgz?maintenancerId=' + maintenancerId, function (res) {
+                        // console.log(res, '====================================');
+                        var list = res.list
+                        Array.isArray(list) &&
+                            list.map((item) => {
+                                item['active'] = false
+                            })
+                        that.onpendzList = list
+                    })
+                },
+
+
+                onChange(e) {
+                    var that = this
+                    that.searchText = e.target.value
+                },
+                searchFuns() {
+                    var that = this
+                    that.getAllDataFn(0)
+                },
+                tabsClick(val) {
+                    var that = this
+                    if (that.tabStatus && that.tabStatus == val) {
+                        that.tabStatus = ''
+                        return
+                    } else {
+                        that.isLoading = true
+                        // that.tabStatus = val
+                        that.getAllDataFn(0, val)
+                    }
+
+                },
+                kgzPositioningFn(val) {
+                    var that = this
+                    that.kgzActiveChoose = val.name
+                    // console.log(val);
+                    let arr = [val]
+                    const { longitude, latitude } = val
+                    map.clearOverlays()
+                    that.initCreatedBmap(longitude, latitude, 15)
+                    that.initAddMarker(arr)
+
+                },
+
+
+            },
+            computed: {
+
+            },
+
+            watch: {
+                haveChoose: {
+                    immediate: true,
+                    // deep: true,
+                    handler(val) {
+
+                    }
+                }
+            },
+        })
+    </script>
+
+</body>
+
+</html>

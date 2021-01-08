@@ -6,7 +6,7 @@
     <div class="header_right">
       <el-avatar
         shape="square"
-        size="medium"
+        size="small"
         src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
       ></el-avatar>
       <span class="name">墨书白</span>
@@ -17,15 +17,14 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {},
-};
+  export default {
+    data () {
+      return {};
+    },
+    methods: {}
+  };
 </script>
 
 <style lang="less" scoped>
-
 
 </style>
