@@ -66,26 +66,27 @@
       // that.bmapZoom();
       },
       initAddMarker () {
-        const arraytoM = (arr, num) => {
-          let count =
-            arr.length % num === 0
-              ? parseInt(arr.length / num)
-              : parseInt(arr.length / num) + 1
-          let itemArr = []
-          for (let i = 0; i < count; i++) {
-            let nArr = []
-            for (let j = 0; j < num; j++) {
-              if (arr.length === 1) {
-                nArr.push(arr.shift())
-                itemArr.push(nArr)
-                return itemArr
-              }
-              nArr.push(arr.shift())
-            }
-            itemArr.push(nArr)
-          }
-          return itemArr
-        }
+
+        // const arraytoM = (arr, num) => {
+        //   let count =
+        //     arr.length % num === 0
+        //       ? parseInt(arr.length / num)
+        //       : parseInt(arr.length / num) + 1
+        //   let itemArr = []
+        //   for (let i = 0; i < count; i++) {
+        //     let nArr = []
+        //     for (let j = 0; j < num; j++) {
+        //       if (arr.length === 1) {
+        //         nArr.push(arr.shift())
+        //         itemArr.push(nArr)
+        //         return itemArr
+        //       }
+        //       nArr.push(arr.shift())
+        //     }
+        //     itemArr.push(nArr)
+        //   }
+        //   return itemArr
+        // }
 
         // const arraytoM = (arr, num) => {
         //   let count =
@@ -108,10 +109,7 @@
         //   return newArr
         // }
 
-        let andr = arraytoM([1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
-        console.log('====================================')
-        console.log(andr)
-        console.log('====================================')
+        // let andr = arraytoM([1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
       }
     }
   }
