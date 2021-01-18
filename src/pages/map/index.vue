@@ -12,6 +12,7 @@
   import mapAddressIcon3 from '@/assets/map/dizhi-172.png'
   import mapAddressIcon4 from '@/assets/map/dizhi-171.png'
   import fontBg from '@/assets/map/label2.png'
+  import styleJson from './styleJson';
   import Vue from 'vue'
   window.map = null
   export default {
@@ -50,6 +51,7 @@
         let point = new BMap.Point(long, lat)
         map.centerAndZoom(point, zoomIndex)
         map.enableScrollWheelZoom(true)
+        map.setMapStyleV2({ styleJson: styleJson });
         window.map = map
       },
       initAddMarker (arr) {
@@ -170,8 +172,7 @@
             `</div></div>`,
           data () {
             return {
-              item: item,
-              showHove: null
+              item: item
             }
           },
           mounted () {},
@@ -183,6 +184,9 @@
         var infoWindow = new window.BMap.InfoWindow(component.$el, optsion) // 创建信息窗口对象
         map.openInfoWindow(infoWindow, point) // 开启信息窗口
       }
+    },
+    destroyed () {
+      window.map = null
     }
   }
 </script>
