@@ -5,9 +5,7 @@
 </template>
 
 <script>
-// import { LoadBaiduMapScript } from "@/mixins/mapoptions";
-
-  import { throttle } from '@/components/util'
+  import { throttle } from '@/components/util' // 节流
   import Api from '@/api/index'
   import mapAddressIcon from '@/assets/map/map-adress.png'
   import mapAddressIcon2 from '@/assets/map/dizhi-17.png'
@@ -117,7 +115,7 @@
             // 此处是下钻
             await that.getBanzAllListFn(dwmc, item)
           } else {
-            await that.getKKgzData(e, item)
+            await that.getDetailsFn(e, item)
           }
         })
       },
@@ -151,8 +149,7 @@
         this.initCreatedBmap(longitude, latitude, 15)
         this.initAddMarker(arr.children)
       },
-      getKKgzData (e, item) {
-        let that = this
+      getDetailsFn (e, item) {
         let optsion = {
           width: 390, // 信息窗口宽度
           height: 0, // 信息窗口高度
@@ -196,6 +193,38 @@
   .map_box {
     width: inherit;
     height: inherit;
+  }
+}
+/deep/.mapgrayInfo {
+  width: 100%;
+  padding-top: 10px;
+  box-sizing: border-box;
+  padding-bottom: 10px;
+  .title {
+    width: inherit;
+    background: #f8f8f8;
+    border-radius: 2px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    line-height: 40px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .content {
+    h5 {
+      width: 100%;
+      line-height: 20px;
+      padding: 6px 0;
+      box-sizing: border-box;
+      font-size: 16px;
+      font-family: Microsoft YaHei;
+      font-weight: 400;
+      color: #999999;
+
+    }
   }
 }
 /* 隐藏地图的baidulogo */
