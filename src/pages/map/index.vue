@@ -6,53 +6,43 @@
 
 <script>
 // import { LoadBaiduMapScript } from "@/mixins/mapoptions";
-// import throttle from '@/components/util';
+
+  import { throttle } from '@/components/util'
+  import Api from '@/api/index'
+  import mapAddressIcon from '@/assets/map/map-adress.png'
+  import mapAddressIcon2 from '@/assets/map/dizhi-17.png'
+  import mapAddressIcon3 from '@/assets/map/dizhi-172.png'
+  import mapAddressIcon4 from '@/assets/map/dizhi-171.png'
+  import fontBg from '@/assets/map/label2.png'
+  import Vue from 'vue'
+  window.map = null
   export default {
     name: 'Map-index',
     // mixins: [LoadBaiduMapScript],
     data () {
       return {
-        searchText: '', // 搜索
-        needOjb: {}, // 总数、正常、离线、告警
         allDataList: [], // 所有数组
-        allKguanzArrList: [], // 所有开关站
-        supplyCompany: [], // 供电公司
-        banzhusList: [], // 班组
-        onpendzList: [], // 开关站
-        selectPrShowIndex: null,
-        haveChoose: [{}, {}, {}],
-        tabStatus: '',
-        kgzActiveChoose: '',
-        mapAddressIcon: () => import('@/assets/map/map-adress.png'),
-        mapAddressIcon2: () => import('@/assets/map/dizhi-17.png'),
-        mapAddressIcon3: () => import('@/assets/map/dizhi-172.png'),
-        mapAddressIcon4: () => import('@/assets/map/dizhi-171.png'),
-        isLoading: true,
-        isFlag: false, // 强制解决addEventListener执行两次
-        tabIndex: 0,
-        logFlag: 'normal',
-        devEmlData: [],
-        basicData: {},
-        poxl: {},
-        modalContInfo: [],
-        modelInfoShow: false,
-        page: 1,
-        isShowCompy: null,
-        contShoe: null
+        mapAddressIcon: mapAddressIcon,
+        mapAddressIcon2: mapAddressIcon2,
+        mapAddressIcon3: mapAddressIcon3,
+        mapAddressIcon4: mapAddressIcon4
       }
     },
-    created () {
-      console.log(typeof BMap, '5555')
-      this.selectPrShowIndex = null
-    // await this.getAllDataFn(0, "");
-    // await this.getDataFun();
-    },
+    created () {},
     mounted () {
-      this.initCreatedBmap()
+      this.getDataFn()
     },
     methods: {
+      getDataFn () {
+        Api.mapListArr().then(async res => {
+          this.allDataList = res
+          await this.initCreatedBmap()
+          await this.initAddMarker()
+          await this.bmapZoom()
+        })
+      },
+
       initCreatedBmap (long = '121.35591', lat = '31.26927', zoomIndex = 11) {
-        let that = this
         // enableMapClick:Boolean 是否开启底图可点功能，默认启用
         let map = new BMap.Map('mapbox', {
           minZoom: 10,
@@ -62,54 +52,139 @@
         let point = new BMap.Point(long, lat)
         map.centerAndZoom(point, zoomIndex)
         map.enableScrollWheelZoom(true)
-        that.initAddMarker()
-      // that.bmapZoom();
+        window.map = map
       },
-      initAddMarker () {
+      initAddMarker (arr) {
+        let that = this
+        let dataArr = arr || that.allDataList
+        let bigSize = new BMap.Size(70, 70)
+        let minSize = new BMap.Size(42, 41)
+        let bigKgzOffset = new BMap.Size(-15, -35)
+        let minKgzOffset = new BMap.Size(-30, -30)
+        let icon1 = new BMap.Icon(that.mapAddressIcon, bigSize)
+        let icon2 = null
+        // let mapList = getListFn(1)
+        dataArr.map(item => {
+          switch (item.state) {
+          case 'normal':
+            icon2 = new BMap.Icon(that.mapAddressIcon2, minSize)
+            break
+          case 'offline':
+            icon2 = new BMap.Icon(that.mapAddressIcon3, minSize)
+            break
 
-        // const arraytoM = (arr, num) => {
-        //   let count =
-        //     arr.length % num === 0
-        //       ? parseInt(arr.length / num)
-        //       : parseInt(arr.length / num) + 1
-        //   let itemArr = []
-        //   for (let i = 0; i < count; i++) {
-        //     let nArr = []
-        //     for (let j = 0; j < num; j++) {
-        //       if (arr.length === 1) {
-        //         nArr.push(arr.shift())
-        //         itemArr.push(nArr)
-        //         return itemArr
-        //       }
-        //       nArr.push(arr.shift())
-        //     }
-        //     itemArr.push(nArr)
-        //   }
-        //   return itemArr
-        // }
+          default:
+            icon2 = new BMap.Icon(that.mapAddressIcon4, minSize)
+            break
+          }
+          let mapIcon = item.nodeType === 1 ? icon1 : icon2
+          mapIcon.setImageSize(item.nodeType === 1 ? bigSize : minSize) // 背景图 大小
 
-        // const arraytoM = (arr, num) => {
-        //   let count =
-        //     arr % num === 0
-        //       ? parseInt(arr.length / num)
-        //       : parseInt(arr.length / num) + 1
-        //   let newArr = []
-        //   for (let i = 0; i < count; i++) {
-        //     let tempArr = []
-        //     for (let j = 0; j < num; j++) {
-        //       if (arr.length === 1) {
-        //         tempArr.push(arr.shift())
-        //         newArr.push(tempArr)
-        //         return newArr
-        //       }
-        //       tempArr.push(arr.shift())
-        //     }
-        //     newArr.push(tempArr)
-        //   }
-        //   return newArr
-        // }
+          let point = new window.BMap.Point(item.longitude, item.latitude)
+          let labelContent = `${item.nodeType === 1 ? item.dwmc : item.name}`
+          let optsion = {
+            point: point,
+            offset: item.nodeType === 1 ? bigKgzOffset : minKgzOffset,
+            enableMassClear: true
+          }
+          let marker = new window.BMap.Marker(point, { icon: mapIcon })
+          let label = new window.BMap.Label(labelContent, optsion)
+          // marker.setIcon(mapIcon)
+          marker.setLabel(label)
+          label.setStyle({
+            // 设置label的样式
+            width: '100px',
+            height: '40px',
+            lineHeight: '30px',
+            textAlign: 'center',
+            color: '#ffffff',
+            fontSize: '15px',
+            border: '0px',
+            borderRadius: '5px',
+            background: `url(${fontBg})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain'
+          })
+          map.addOverlay(marker)
+          that.addClickInfo(marker, item)
+        })
+      },
+      addClickInfo (marker, item) {
+        let that = this
+        marker.addEventListener('click', async e => {
+          let dwmc = e.target.getLabel().content
+          if (item.nodeType === 1) {
+            // 此处是下钻
+            await that.getBanzAllListFn(dwmc, item)
+          } else {
+            await that.getKKgzData(e, item)
+          }
+        })
+      },
+      bmapZoom () {
+        let that = this
+        const getChildList = arr => {
+          let nArr = []
+          arr.forEach(element => {
+            if (Array.isArray(element.children) && element.children.length > 0) {
+              nArr.push(...element.children)
+            }
+          })
+          return nArr
+        }
+        map.addEventListener('zoomend', async e => {
+          let zoomLevel = map.getZoom()
+          if (zoomLevel < 15) {
+            map.clearOverlays() // 清除地图上所有覆盖物
+            throttle(that.initAddMarker(that.allDataList), 1000)
+          } else {
+            map.clearOverlays()
+            let newChild = getChildList(that.allDataList)
+            throttle(that.initAddMarker(newChild), 1000)
+          }
+        })
+      },
+      getBanzAllListFn (dwmc, item) {
+        let arr = this.allDataList.find(v => v.dwmc === dwmc)
+        map.clearOverlays()
+        const { longitude, latitude } = arr.children[0]
+        this.initCreatedBmap(longitude, latitude, 15)
+        this.initAddMarker(arr.children)
+      },
+      getKKgzData (e, item) {
+        let that = this
+        let optsion = {
+          width: 390, // 信息窗口宽度
+          height: 0, // 信息窗口高度
+          title: `温馨提示(自定义)`, // 信息窗口标题
+          enableMessage: true // 设置允许信息窗发送短息
+        }
+        var p = e.target
+        var point = new window.BMap.Point(
+          p.getPosition().lng,
+          p.getPosition().lat
+        )
 
-        // let andr = arraytoM([1, 2, 3, 4, 5, 6, 7, 8, 9], 2)
+        let MyComponent = Vue.extend({
+          template:
+            `<div class="mapgrayInfo" ><div class="title">{{item.name}}</div>` +
+            `<div class="content"><h5>状态：<span>正常</span></h5>` +
+            `<p>详情：这是详情这是详情这是详情这是详情这是详情这是详情这是详情这是详情这是详情这是详情这是详情</p>` +
+            `</div></div>`,
+          data () {
+            return {
+              item: item,
+              showHove: null
+            }
+          },
+          mounted () {},
+          computed: {},
+          methods: {}
+        })
+
+        let component = new MyComponent().$mount()
+        var infoWindow = new window.BMap.InfoWindow(component.$el, optsion) // 创建信息窗口对象
+        map.openInfoWindow(infoWindow, point) // 开启信息窗口
       }
     }
   }
