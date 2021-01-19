@@ -1,6 +1,33 @@
 
 export default [
   {
+    path: '/api/web/login',
+    method: 'post',
+    handle ({ body }) {
+      return {
+        code: 0,
+        msg: '登录成功',
+        data: {
+          userName: '墨书白',
+          avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+          token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTEwNTg5NTMsInVzZXJuYW1lIjoiYWRtaW4ifQ.47y4LjcbD7oAchMhwVi2V8VrMbmeaJHHKJGPJgp400A'
+        }
+      }
+    }
+  },
+  {
+    path: '/api/web/logout',
+    method: 'post',
+    handle ({ body }) {
+      return {
+        code: 0,
+        msg: '登出成功',
+        data: {}
+      }
+    }
+  },
+
+  {
     path: '/api/web/map/list',
     method: 'get',
     handle ({ body }) {

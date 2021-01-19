@@ -16,7 +16,9 @@ const Setting = {
   // 接口请求地址
   apiBaseURL: env === 'development' ? '/' : '/',
   // 接口请求返回错误时，弹窗的持续时间，单位：秒
-  modalDuration: 10
+  modalDuration: 10,
+  // Cookies 默认保存时间，单位：天
+  cookiesExpires: 1
 
 };
 

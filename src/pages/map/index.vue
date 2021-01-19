@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { throttle } from '@/components/util' // 节流
+  import util from '@/libs/util' // 节流
   import Api from '@/api/index'
   import mapAddressIcon from '@/assets/map/map-adress.png'
   import mapAddressIcon2 from '@/assets/map/dizhi-17.png'
@@ -136,11 +136,11 @@
           let zoomLevel = map.getZoom()
           if (zoomLevel < 15) {
             map.clearOverlays() // 清除地图上所有覆盖物
-            throttle(that.initAddMarker(that.allDataList), 1000)
+            util.throttle(that.initAddMarker(that.allDataList), 1000)
           } else {
             map.clearOverlays()
             let newChild = getChildList(that.allDataList)
-            throttle(that.initAddMarker(newChild), 1000)
+            util.throttle(that.initAddMarker(newChild), 1000)
           }
         })
       },

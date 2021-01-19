@@ -1,5 +1,10 @@
+import cookies from './util.cookies';
+const util = {
+  cookies
+};
 // 节流函数
-export const throttle = (fn, delay = 100) => {
+
+util.throttle = (fn, delay = 100) => {
   let timer = null
   return data => {
     clearTimeout(timer)
@@ -8,3 +13,5 @@ export const throttle = (fn, delay = 100) => {
     }, delay)
   }
 }
+
+export default util

@@ -3,6 +3,7 @@ import Setting from '@/project.config';
 import { Message } from 'element-ui';
 import homeService from './base/home'
 import mapService from './base/map'
+import accountService from './base/account'
 
 // 创建一个 axios 实例
 const ajaxinstance = axios.create({
@@ -79,6 +80,7 @@ ajaxinstance.interceptors.response.use(
  */
 const API = {
   ...homeService(ajaxinstance),
-  ...mapService(ajaxinstance)
+  ...mapService(ajaxinstance),
+  ...accountService(ajaxinstance)
 }
 export default API
