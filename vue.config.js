@@ -45,6 +45,7 @@ let hardSourcePlugin = new HardSourceWebpackPlugin({
 })
 
 module.exports = {
+  transpileDependencies: ['view-design'],
   publicPath: Setting.publicPath,
   lintOnSave: Setting.lintOnSave,
   outputDir: Setting.outputDir,
@@ -90,7 +91,7 @@ module.exports = {
     // svg
     config.module.rule('svg')
       .exclude.add(resolve('src/assets/icons'))
-
+    // icons
     config.module.rule('icons')
       .test(/\.svg$/)
       .include.add(resolve('src/assets/icons')).end()
@@ -108,6 +109,14 @@ module.exports = {
     config.resolve.alias
       .set('@api', resolve('src/api'))
       .set('@page', resolve('src/pages'));
+
+    // 使用 iView Loader
+    config.module.rule('vue')
+      .test(/\.vue$/)
+      .use('iview-loader')
+      .loader('iview-loader')
+      .options({ prefix: false })
+      .end()
     // // node
     // config.node
     //     .set('__dirname', true)

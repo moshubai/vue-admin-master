@@ -4,7 +4,7 @@
 import util from '@/libs/util';
 import router from '@/router';
 import Api from '@/api';
-import { MessageBox } from 'element-ui';
+import { Modal } from 'view-design';
 export default {
   namespaced: true,
   actions: {
@@ -47,20 +47,18 @@ export default {
           await dispatch('user/user/set', {}, { root: true });
           // 跳转路由
           router.push({
-            name: 'login'
+            path: '/login'
           });
         })
       }
 
       if (confirm) {
-        MessageBox.confirm('此操作将退出当前用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          logout();
-        }).catch(() => {
-          console.log('取消');
+        Modal.confirm({
+          title: '温馨提示',
+          content: '您确定退出登录当前账户吗？',
+          onOk () {
+            logout();
+          }
         });
       } else {
         logout();

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Setting from '@/project.config';
-import { Message } from 'element-ui';
+import { Message } from 'view-design';
 import homeService from './base/home'
 import mapService from './base/map'
 import accountService from './base/account'

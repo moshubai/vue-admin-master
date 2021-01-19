@@ -9,7 +9,7 @@ export default [
         msg: '登录成功',
         data: {
           userName: '墨书白',
-          avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
+          avatar: 'https://i.loli.net/2017/08/21/599a521472424.jpg',
           token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTEwNTg5NTMsInVzZXJuYW1lIjoiYWRtaW4ifQ.47y4LjcbD7oAchMhwVi2V8VrMbmeaJHHKJGPJgp400A'
         }
       }

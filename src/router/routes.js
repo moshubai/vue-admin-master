@@ -57,7 +57,7 @@ const frameOut = [
   // 登录
   {
     path: '/login',
-    name: 'login',
+    name: 'LoginPage',
     meta: {
       title: '登陆'
     },
@@ -65,17 +65,17 @@ const frameOut = [
   },
   // 登出
   {
-    path: '/signout',
-    name: 'signout',
+    path: '/forgetpassword',
+    name: 'ForgetPasswordPage',
     meta: {
-      title: '登出'
+      title: '忘记密码'
     },
-    component: () => import('@/pages/account/signout')
+    component: () => import('@/pages/account/forgetpassword')
   },
   // 注册
   {
     path: '/register',
-    name: 'register',
+    name: 'RegisterPage',
     meta: {
       auth: true,
       title: '注册'

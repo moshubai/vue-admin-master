@@ -2,9 +2,7 @@
   <div class="home_content">
     <div class="media avatar_account">
       <div class="avatar_icon">
-        <el-avatar
-          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-        ></el-avatar>
+        <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
       </div>
       <div class="content ml-15">
         <h4>欢迎您！</h4>
@@ -15,25 +13,24 @@
         </p>
       </div>
     </div>
-    <el-row :gutter="20">
-      <el-col :span="12" style="height:630px">
+    <Row :gutter="20">
+      <Col :span="12" style="height:530px">
         <div class="grid_content bg-purple">
           <h4 class="page_title">基本介绍</h4>
           <ContentIntroduction />
         </div>
-      </el-col>
-      <el-col :span="12" style="height:630px">
+      </Col>
+      <Col :span="12" style="height:530px">
         <div class="grid_content bg-purple">
           <h4 class="page_title">版本信息</h4>
           <TimeLine />
         </div>
-      </el-col>
-    </el-row>
+      </Col>
+    </Row>
   </div>
 </template>
 
 <script>
-// import { mapState, mapGetters, mapActions } from 'vuex';
   export default {
     name: 'home-page-index',
     components: {
@@ -45,20 +42,8 @@
         count: 0
       }
     },
-    computed: {
-      // ...mapState('admin/try', ['count']),
-      // ...mapGetters('admin/try', ['getterFn'])
-    },
-    methods: {
-      // ...mapActions('admin/try', ['addFn']),
-      add () {
-        console.log(this.$store)
-        //   this.$store.commit("admin/try/add"); // 同步
-        //   this.$store.dispatch("admin/try/addFn"); // 异步
-        this.addFn()
-      //   console.log(this.getterFn);
-      }
-    }
+    computed: {},
+    methods: {}
   }
 </script>
 <style lang="less" scoped>
