@@ -24,9 +24,10 @@ export default {
           password
         })
           .then(async res => {
-            util.cookies.set('token', res.token);
+            const { token } = res
+            util.cookies.set('token', token);
             // 设置 vuex 用户信息
-            await dispatch('user/info/set', res.data);
+            await dispatch('user/user/set', res, { root: true });
             resolve(res);
           })
           .catch(err => {
@@ -43,7 +44,7 @@ export default {
           // 删除cookie
           util.cookies.remove('token');
           // 清空 vuex 用户信息
-          await dispatch('user/info/set', {});
+          await dispatch('user/user/set', {}, { root: true });
           // 跳转路由
           router.push({
             name: 'login'

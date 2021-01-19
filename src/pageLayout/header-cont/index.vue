@@ -9,7 +9,7 @@
         size="small"
         src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
       ></el-avatar>
-      <span class="name">墨书白</span>
+      <span class="name">{{ info.userName }}</span>
       <span class="home"></span>
       <span class="signout" @click="signout"></span>
     </div>
@@ -17,10 +17,18 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapActions, mapState } from 'vuex'
   export default {
     data () {
-      return {};
+      return {}
+    },
+    computed: {
+      ...mapState('user/user', ['info'])
+    },
+    mounted () {
+      console.log(this.$store)
+      console.log(this.info)
+      console.log('====================================')
     },
     methods: {
       ...mapActions('account/account', ['logout']),
@@ -31,9 +39,7 @@
         })
       }
     }
-  };
+  }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>
