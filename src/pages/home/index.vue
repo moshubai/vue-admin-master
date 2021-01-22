@@ -18,6 +18,18 @@
         <div class="grid_content bg-purple">
           <h4 class="page_title">基本介绍</h4>
           <ContentIntroduction />
+          <!--  -->
+          <current-user>
+            <template v-slot:header="slotProps">
+              {{ slotProps.user.firstName }}3
+            </template>
+            <template v-slot:footer="slotProp">
+              {{ slotProp.user.firstName }}4
+            </template>
+          </current-user>
+          <!--  -->
+          <Commodity/>
+          <!--  -->
         </div>
       </Col>
       <Col :span="12" style="height:530px">
@@ -35,11 +47,14 @@
     name: 'home-page-index',
     components: {
       TimeLine: () => import('./tepl/timeline'),
-      ContentIntroduction: () => import('./tepl/contentIntroduction')
+      ContentIntroduction: () => import('./tepl/contentIntroduction'),
+      CurrentUser: () => import('./current-user'),
+      Commodity: () => import('./Commodity')
     },
     data () {
       return {
         count: 0
+
       }
     },
     computed: {},
