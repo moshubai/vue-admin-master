@@ -49,17 +49,17 @@
 <style lang="less" scoped>
 .home_content {
   .avatar_account {
-    margin-bottom: 15px;
+    margin-bottom: 1.3889vh;
   }
   .grid_content {
     width: 100%;
     background: #ffffff;
-    padding: 0px 20px 20px;
+    padding: 0px 1.8519vh 1.8519vh;
     height: 100%;
   }
   p {
     width: 100%;
-    line-height: 30px;
+    line-height: 2.7778vh;
     color: #333333;
     a {
       color: #000000;
