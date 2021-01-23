@@ -7,7 +7,10 @@
         :key="index"
         style="margin-top:20px;"
       >
-        <slot :row="row"></slot>
+        <div>
+          {{ row.columnName }}
+        </div>
+        <slot :row="row.children"></slot>
       </Col>
     </Row>
   </div>
@@ -15,6 +18,7 @@
 
 <script>
   export default {
+    components: {},
     props: {
       commodities: {
         type: Array,
@@ -25,7 +29,7 @@
       return {}
     },
     mounted () {
-      console.log(this.commodities)
+      console.log(this.commodities, 'this.commodities')
     },
     methods: {
       onCommodityClick () {}

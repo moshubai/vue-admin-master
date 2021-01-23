@@ -1,5 +1,6 @@
 import PageLayout from '@/pageLayout/index'
 import map from './modules/map'
+import card from './modules/card'
 /**
  * 在主框架内显示
  */
@@ -14,13 +15,15 @@ const frameIn = [
       {
         path: '/home',
         name: 'home-page-index',
+        icon: 'md-home',
         meta: {
           auth: true,
           title: '首页'
         },
         component: () => import('@/pages/home/index.vue')
       },
-      ...map
+      ...map,
+      ...card
       // 刷新页面 必须保留
       // {
       //     path: 'refresh',

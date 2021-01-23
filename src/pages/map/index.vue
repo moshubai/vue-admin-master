@@ -16,7 +16,7 @@
   import Vue from 'vue'
   window.map = null
   export default {
-    name: 'Map-index',
+    name: 'map-page-index',
     // mixins: [LoadBaiduMapScript],
     data () {
       return {
@@ -43,11 +43,13 @@
 
       initCreatedBmap (long = '121.35591', lat = '31.26927', zoomIndex = 11) {
         // enableMapClick:Boolean 是否开启底图可点功能，默认启用
+        // eslint-disable-next-line no-undef
         let map = new BMap.Map('mapbox', {
           minZoom: 10,
           maxZoom: 18,
           enableMapClick: false
         })
+        // eslint-disable-next-line no-undef
         let point = new BMap.Point(long, lat)
         map.centerAndZoom(point, zoomIndex)
         map.enableScrollWheelZoom(true)
@@ -57,23 +59,31 @@
       initAddMarker (arr) {
         let that = this
         let dataArr = arr || that.allDataList
+        // eslint-disable-next-line no-undef
         let bigSize = new BMap.Size(70, 70)
+        // eslint-disable-next-line no-undef
         let minSize = new BMap.Size(42, 41)
+        // eslint-disable-next-line no-undef
         let bigKgzOffset = new BMap.Size(-15, -35)
+        // eslint-disable-next-line no-undef
         let minKgzOffset = new BMap.Size(-30, -30)
+        // eslint-disable-next-line no-undef
         let icon1 = new BMap.Icon(that.mapAddressIcon, bigSize)
         let icon2 = null
         // let mapList = getListFn(1)
         dataArr.map(item => {
           switch (item.state) {
           case 'normal':
+            // eslint-disable-next-line no-undef
             icon2 = new BMap.Icon(that.mapAddressIcon2, minSize)
             break
           case 'offline':
+            // eslint-disable-next-line no-undef
             icon2 = new BMap.Icon(that.mapAddressIcon3, minSize)
             break
 
           default:
+            // eslint-disable-next-line no-undef
             icon2 = new BMap.Icon(that.mapAddressIcon4, minSize)
             break
           }
@@ -105,6 +115,7 @@
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain'
           })
+          // eslint-disable-next-line no-undef
           map.addOverlay(marker)
           that.addClickInfo(marker, item)
         })
@@ -132,12 +143,16 @@
           })
           return nArr
         }
+        // eslint-disable-next-line no-undef
         map.addEventListener('zoomend', async e => {
+          // eslint-disable-next-line no-undef
           let zoomLevel = map.getZoom()
           if (zoomLevel < 15) {
+            // eslint-disable-next-line no-undef
             map.clearOverlays() // 清除地图上所有覆盖物
             util.throttle(that.initAddMarker(that.allDataList), 1000)
           } else {
+            // eslint-disable-next-line no-undef
             map.clearOverlays()
             let newChild = getChildList(that.allDataList)
             util.throttle(that.initAddMarker(newChild), 1000)
@@ -146,6 +161,7 @@
       },
       getBanzAllListFn (dwmc, item) {
         let arr = this.allDataList.find(v => v.dwmc === dwmc)
+        // eslint-disable-next-line no-undef
         map.clearOverlays()
         const { longitude, latitude } = arr.children[0]
         this.initCreatedBmap(longitude, latitude, 15)
@@ -182,6 +198,7 @@
 
         let component = new MyComponent().$mount()
         var infoWindow = new window.BMap.InfoWindow(component.$el, optsion) // 创建信息窗口对象
+        // eslint-disable-next-line no-undef
         map.openInfoWindow(infoWindow, point) // 开启信息窗口
       }
     },

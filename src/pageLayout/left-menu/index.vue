@@ -10,7 +10,8 @@
       :name="item.name"
       :key="i"
     >
-      <Icon type="md-document" />
+
+      <menu-icon :iconInfo='item'/>
       {{ item.meta.title }}
     </MenuItem>
   </Menu>
@@ -19,6 +20,9 @@
 <script>
   import { frameInRoutes } from '@/router/routes'
   export default {
+    components: {
+      MenuIcon: () => import('./menu-icon')
+    },
     data () {
       return {
         openName: 'home-page-index'

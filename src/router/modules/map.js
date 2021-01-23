@@ -4,7 +4,8 @@ const meta = {
 export default [
   {
     path: '/map',
-    name: 'Map-index',
+    name: 'map-page-index',
+    svgIcon: 'map',
     meta: {
       ...meta,
       title: '地图'
