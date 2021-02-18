@@ -12,9 +12,7 @@ import '@/assets/icons'
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 
-// ElementUI
-// import ElementUI from 'element-ui';
-// import 'element-ui/lib/theme-chalk/index.css';
+import '@/components/common'
 
 // style
 import './style/index.less'

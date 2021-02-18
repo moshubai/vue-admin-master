@@ -1,45 +1,289 @@
 <template>
   <div class="home_content">
-    <div class="media avatar_account">
-      <div class="avatar_icon">
-        <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
-      </div>
-      <div class="content ml-15">
-        <h4>欢迎您！ f-vue</h4>
-        <p>
-          这是您第<span>1</span>次登录，上次登录日期：<span
-            >2021-01-12 18:50:07</span
-          >，详细信息请查看<a>日志</a>，如果不是您本人登录，请及时<a>修改密码</a>。
-        </p>
-      </div>
+    <div class="swipe_container">
+      <CarouselTepl />
+      <RightAside :swipeAside="swipeAside" />
     </div>
-    <Row :gutter="20">
-      <Col :span="12" style="height:530px">
-        <div class="grid_content bg-purple">
-          <h4 class="page_title">基本介绍</h4>
-          <ContentIntroduction />
-        </div>
-      </Col>
-      <Col :span="12" style="height:530px">
-        <div class="grid_content bg-purple">
-          <h4 class="page_title">版本信息</h4>
-          <TimeLine />
-        </div>
-      </Col>
-    </Row>
+    <div class="article_container">
+      <ArticleCont />
+      <RightAside :swipeAside="articleAside" />
+    </div>
+    <div class="article_container">
+      <ArticleCont />
+      <RightAside :swipeAside="articleAsideTwo" />
+    </div>
+    <div class="table_container">
+      <TableCont />
+      <RightAside :swipeAside="TableAside" />
+    </div>
   </div>
 </template>
 
 <script>
+  import absie from '@/assets/images/base/absie.jpg'
   export default {
     name: 'home-page-index',
     components: {
-      TimeLine: () => import('./tepl/timeline'),
-      ContentIntroduction: () => import('./tepl/contentIntroduction')
+      CarouselTepl: () => import('./tepl/carousel'),
+      RightAside: () => import('./tepl/right-aside'),
+      ArticleCont: () => import('./tepl/article-cont'),
+      TableCont: () => import('./tepl/table-cont')
     },
     data () {
       return {
-        count: 0
+        swipeAside: [
+          {
+            id: 1,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: true
+          },
+          {
+            id: 2,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 3,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 4,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 5,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          }
+        ],
+        articleAside: [
+          {
+            id: 1,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: true
+          },
+          {
+            id: 2,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 3,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 4,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 5,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 6,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 7,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 8,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 9,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 10,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          }
+        ],
+        articleAsideTwo: [
+          {
+            id: 1,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: true
+          },
+          {
+            id: 2,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 3,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 4,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 5,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 6,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 7,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 8,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 9,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 10,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          }
+        ],
+        TableAside: [
+          {
+            id: 1,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: true
+          },
+          {
+            id: 2,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 3,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 4,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 5,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 6,
+            title: '标题1',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 7,
+            title: '标题2',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 8,
+            title: '标题3',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 9,
+            title: '标题4',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          },
+          {
+            id: 10,
+            title: '标题5',
+            content: '详情1详情1详情1详情1详情1详情1',
+            img: absie,
+            show: false
+          }
+        ]
       }
     },
     computed: {},
@@ -48,22 +292,24 @@
 </script>
 <style lang="less" scoped>
 .home_content {
-  .avatar_account {
-    margin-bottom: 1.3889vh;
-  }
-  .grid_content {
+  width: 100%;
+  .swipe_container {
     width: 100%;
-    background: #ffffff;
-    padding: 0px 1.8519vh 1.8519vh;
-    height: 100%;
+    padding: 15px;
+    background: #fff;
+    display: flex;
+    display: -webkit-flex;
+    border-radius: 6px;
   }
-  p {
+  .article_container,
+  .table_container {
+    margin-top: 15px;
     width: 100%;
-    line-height: 2.7778vh;
-    color: #333333;
-    a {
-      color: #000000;
-    }
+    padding: 15px;
+    background: #fff;
+    display: flex;
+    display: -webkit-flex;
+    border-radius: 6px;
   }
 }
 </style>

@@ -62,6 +62,21 @@ a:-webkit-any-link:active {
   background-color: #c1c1c1;
 }
 
+.cf {
+  zoom: 1;
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
 .loop(@counter) when (@counter > 0) {
   .p-@{counter} {
     padding: (1px * @counter);

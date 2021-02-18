@@ -1,16 +1,12 @@
 <template>
   <section class="container_warp">
-    <header class="header_warp">
-      <HeaderCont/>
-    </header>
+    <HeaderCont />
+    <NavMain />
     <div class="container_content">
-      <div class="container_left_warp">
-        <LeftMenu />
-      </div>
-      <div class="container_right_warp">
-        <router-view></router-view>
-      </div>
+      <router-view></router-view>
     </div>
+    <!-- 底部版权 -->
+    <CopyRight />
   </section>
 </template>
 
@@ -18,10 +14,11 @@
   export default {
     name: 'PageLayout',
     components: {
-      LeftMenu: () => import('./left-menu'),
-      HeaderCont: () => import('./header-cont')
+      HeaderCont: () => import('./header-cont'),
+      NavMain: () => import('./nav-main'),
+      CopyRight: () => import('@/components/copyright')
     }
-  };
+  }
 </script>
 
 <style lang="less" scoped></style>

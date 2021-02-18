@@ -1,39 +1,48 @@
 <template>
-  <div class="header">
-    <span class="logo">
-      这里放LOGO
-    </span>
-    <div class="header_right">
-      <Avatar :src="info.avatar" />
-      <span class="name">{{ info.userName }}</span>
-      <span class="home" @click="goHome"></span>
-      <span class="signout" @click="signout"></span>
+  <div class="header_warp">
+    <div class="header">
+      <Row :gutter="0">
+        <Col :span="6">
+          <span class="logo">
+            <img src="~@/assets/images/base/logo.png" alt="*******" />
+          </span>
+          <!--  -->
+        </Col>
+        <Col :span="15">
+          <div class="searchBar">
+            <Input
+              search
+              enter-button
+              @on-search="searchFn"
+              placeholder="搜索..."
+            />
+          </div>
+        </Col>
+        <Col :span="3">
+          <div class="bookBar">
+            <span>
+              <div class="icon_svg">
+                <svg-icon icon-class="book"></svg-icon>
+                <span class="ml-8">我的书架</span>
+              </div>
+            </span>
+          </div>
+        </Col>
+      </Row>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
   export default {
     data () {
       return {}
     },
-    computed: {
-      ...mapState('user/user', ['info'])
-    },
+    computed: {},
     mounted () {},
     methods: {
-      ...mapActions('account/account', ['logout']),
-      signout () {
-        this.logout({
-          confirm: true,
-          vm: this
-        })
-      },
-      goHome () {
-        this.$router.push({
-          path: '/home'
-        })
+      searchFn (val) {
+        console.log(val)
       }
     }
   }

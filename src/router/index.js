@@ -32,24 +32,24 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   // 判断是否需要登录才可以进入
-  if (to.matched.some(_ => _.meta.auth)) {
-    // 这里依据 token 判断是否登录，可视情况修改
-    const token = util.cookies.get('token');
-    if (token && token !== 'undefined') {
-      next();
-    } else {
-      // 没有登录的时候跳转到登录界面
-      next({
-        path: '/login',
-        query: {
-          redirect: to.fullPath
-        }
-      });
-    }
-  } else {
-    // 不需要身份校验 直接通过
-    next();
-  }
+  // if (to.matched.some(_ => _.meta.auth)) {
+  //   // 这里依据 token 判断是否登录，可视情况修改
+  //   const token = util.cookies.get('token');
+  //   if (token && token !== 'undefined') {
+  //     next();
+  //   } else {
+  //     // 没有登录的时候跳转到登录界面
+  //     next({
+  //       path: '/home',
+  //       query: {
+  //         redirect: to.fullPath
+  //       }
+  //     });
+  //   }
+  // } else {
+  //   // 不需要身份校验 直接通过
+  //   next();
+  // }
   next();
 });
 

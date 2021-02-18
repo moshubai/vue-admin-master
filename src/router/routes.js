@@ -1,6 +1,6 @@
 import PageLayout from '@/pageLayout/index'
-import map from './modules/map'
-import card from './modules/card'
+import allworks from './modules/allworks'
+import leaderboard from './modules/leaderboard'
 /**
  * 在主框架内显示
  */
@@ -22,68 +22,9 @@ const frameIn = [
         },
         component: () => import('@/pages/home/index.vue')
       },
-      ...map,
-      ...card
-      // 刷新页面 必须保留
-      // {
-      //     path: 'refresh',
-      //     name: 'refresh',
-      //     hidden: true,
-      //     component: {
-      //         beforeRouteEnter (to, from, next) {
-      //             next(instance => instance.$router.replace(from.fullPath));
-      //         },
-      //         render: h => h()
-      //     }
-      // },
-      // 页面重定向 必须保留
-      // {
-      //     path: 'redirect/:route*',
-      //     name: 'redirect',
-      //     hidden: true,
-      //     component: {
-      //         beforeRouteEnter (to, from, next) {
-      //             next(instance => instance.$router.replace(JSON.parse(from.params.route)));
-      //         },
-      //         render: h => h()
-      //     }
-      // }
+      ...allworks,
+      ...leaderboard
     ]
-  }
-];
-
-/**
- * 在主框架之外显示
- */
-
-const frameOut = [
-  // 登录
-  {
-    path: '/login',
-    name: 'LoginPage',
-    meta: {
-      title: '登陆'
-    },
-    component: () => import('@/pages/account/login')
-  },
-  // 登出
-  {
-    path: '/forgetpassword',
-    name: 'ForgetPasswordPage',
-    meta: {
-      title: '忘记密码'
-    },
-    component: () => import('@/pages/account/forgetpassword')
-  },
-  // 注册
-  {
-    path: '/register',
-    name: 'RegisterPage',
-    meta: {
-      auth: true,
-      title: '注册'
-    },
-    component: () => import('@/pages/account/register')
   }
 ];
 
@@ -91,37 +32,37 @@ const frameOut = [
  * 错误页面
  */
 
-// const errorPage = [
-//     {
-//         path: '/403',
-//         name: '403',
-//         meta: {
-//             title: '403'
-//         },
-//         component: () => import('@/pages/system/error/403')
-//     },
-//     {
-//         path: '/500',
-//         name: '500',
-//         meta: {
-//             title: '500'
-//         },
-//         component: () => import('@/pages/system/error/500')
-//     },
-//     {
-//         path: '*',
-//         name: '404',
-//         meta: {
-//             title: '404'
-//         },
-//         component: () => import('@/pages/system/error/404')
-//     }
-// ];
+const errorPage = [
+  {
+    path: '/403',
+    name: '403',
+    meta: {
+      title: '403'
+    },
+    component: () => import('@/pages/system/error/403/index.vue')
+  },
+  {
+    path: '/500',
+    name: '500',
+    meta: {
+      title: '500'
+    },
+    component: () => import('@/pages/system/error/500/index.vue')
+  },
+  {
+    path: '*',
+    name: '404',
+    meta: {
+      title: '404'
+    },
+    component: () => import('@/pages/system/error/404/index.vue')
+  }
+];
 
 // 导出需要显示菜单的
 export const frameInRoutes = frameIn
 // 重新组织后导出
 export default [
   ...frameIn,
-  ...frameOut
+  ...errorPage
 ];
