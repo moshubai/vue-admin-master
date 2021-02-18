@@ -5,7 +5,7 @@
         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
       </div>
       <div class="content ml-15">
-        <h4>欢迎您！</h4>
+        <h4>欢迎您！ f-vue</h4>
         <p>
           这是您第<span>1</span>次登录，上次登录日期：<span
             >2021-01-12 18:50:07</span
