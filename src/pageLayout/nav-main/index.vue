@@ -70,4 +70,10 @@
   }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/deep/.ivu-menu-horizontal .ivu-menu-item,
+/deep/.ivu-menu-horizontal .ivu-menu-submenu {
+  padding: 0px 10px;
+  margin: 0px 15px;
+}
+</style>
