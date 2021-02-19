@@ -2,7 +2,7 @@
   <div class="leaderboard">
     <div class="leaderboard_left">
       <h5>热门推荐</h5>
-      <Table stripe :columns="columns" :data="dataList"></Table>
+      <Table stripe :columns="columns" :data="dataList" @on-row-click="tableRowClick"></Table>
     </div>
 
     <div class="leaderboard_right">
@@ -319,7 +319,13 @@
         ]
       }
     },
-    methods: {},
+    methods: {
+      tableRowClick (row) {
+        console.log('row', row); // log
+        this.$router.push(`/details/55555333`);
+      }
+
+    },
     mounted () {}
   }
 </script>
@@ -369,6 +375,10 @@
         line-height: 47px;
         font-size: 16px;
         overflow: hidden;
+        border-bottom: 1px dotted #eee;
+        &:last-child{
+          border-bottom: none;
+        }
         &.active {
           color: #f70;
         }

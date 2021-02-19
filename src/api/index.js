@@ -2,6 +2,7 @@ import axios from 'axios';
 import Setting from '@/project.config';
 import { Message } from 'view-design';
 import homeService from './base/home'
+import accountService from './base/account'
 
 // 创建一个 axios 实例
 const ajaxinstance = axios.create({
@@ -77,6 +78,7 @@ ajaxinstance.interceptors.response.use(
  * @type {Object}
  */
 const API = {
-  ...homeService(ajaxinstance)
+  ...homeService(ajaxinstance),
+  ...accountService(ajaxinstance)
 }
 export default API

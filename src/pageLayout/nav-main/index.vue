@@ -3,7 +3,7 @@
     <div class="boxs">
       <Menu
         mode="horizontal"
-        :active-name="openName"
+        :active-name="current"
         @on-select="handleOpen"
         @on-open-change="handleClose"
       >
@@ -33,33 +33,24 @@
 </template>
 
 <script>
-  import { frameInRoutes } from '@/router/routes'
+  import { mapState } from 'vuex';
   export default {
     name: 'menuTepl',
     data () {
       return {
-        openName: 'home-page-index'
+
       }
     },
-    watch: {
-      $route: {
-        handler (val) {
-          this.handleUpdateMenuState(val)
-        },
-        immediate: true
-      }
-    },
+
     computed: {
-      menuList () {
-        return frameInRoutes[0].children
-      }
+      ...mapState('menu', [
+        'menuList',
+        'current'
+      ])
     },
     mounted () {},
     methods: {
-      handleUpdateMenuState (val) {
-        const { name } = val
-        this.openName = name
-      },
+
       handleOpen (key, keyPath) {
         // console.log(key, keyPath)
       },

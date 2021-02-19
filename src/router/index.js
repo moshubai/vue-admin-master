@@ -5,7 +5,7 @@ import util from '@/libs/util'
 
 import Setting from '@/project.config';
 
-// import store from '@/store/index';
+import store from '@/store/index';
 
 // 路由数据
 import routes from './routes';
@@ -56,6 +56,7 @@ router.beforeEach((to, from, next) => {
 router.afterEach(to => {
   // 更改标题
   const { title } = to.meta
+  store.dispatch('menu/open', to);
   util.title(title);
   // 返回页面顶端
   window.scrollTo(0, 0);

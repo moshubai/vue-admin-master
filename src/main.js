@@ -2,7 +2,9 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 
+// 菜单和路由
 import router from './router'
+import { frameInRoutes } from '@/router/routes';
 
 import store from './store'
 
@@ -23,5 +25,12 @@ Vue.use(ViewUI);
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created () {
+    // 处理路由 得到每一级的路由设置
+    this.$store.commit('menu/init', frameInRoutes);
+  },
+  watch: {
+
+  }
 }).$mount('#app')

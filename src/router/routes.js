@@ -1,6 +1,7 @@
 import PageLayout from '@/pageLayout/index'
 import allworks from './modules/allworks'
 import leaderboard from './modules/leaderboard'
+import details from './modules/details'
 /**
  * 在主框架内显示
  */
@@ -23,7 +24,8 @@ const frameIn = [
         component: () => import('@/pages/home/index.vue')
       },
       ...allworks,
-      ...leaderboard
+      ...leaderboard,
+      ...details
     ]
   }
 ];
