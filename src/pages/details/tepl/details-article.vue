@@ -45,7 +45,7 @@
         </li>
       </ul>
       <div class="lookmore">
-        <span>查看全部评论</span>
+        <span>查看全部评论<Icon type="ios-arrow-forward"/></span>
       </div>
       <div class="take_comment">
         <p>发表评论</p>
@@ -55,7 +55,7 @@
           :rows="4"
           placeholder="发表评论..."
         />
-        <p>
+        <p class="btn">
           <Button type="primary" shape="circle">发表</Button>
         </p>
       </div>
@@ -191,10 +191,42 @@
         }
       }
     }
+    .lookmore {
+      width: 100%;
+      span {
+        margin-top: 20px;
+        width: 100%;
+        cursor: pointer;
+        height: 34px;
+        line-height: 34px;
+        border-radius: 2px;
+        background-color: #f7f7f7;
+        text-align: center;
+        display: block;
+        color: #999999;
+      }
+    }
+    .take_comment {
+      padding-top: 20px;
+      p {
+        font-size: 15px;
+        color: #666;
+        line-height: 26px;
+        height: 26px;
+        margin-bottom: 8px;
+        &.btn {
+          text-align: right;
+          margin-top: 10px;
+        }
+      }
+    }
   }
   .right {
     margin-left: 15px;
     flex: 1;
   }
+}
+/deep/.ivu-btn {
+  padding: 0 35px;
 }
 </style>

@@ -23,16 +23,18 @@
   border: 1px solid @baseThemeColor;
   border-radius: 0.463vh;
 }
+
 .ivu-input-search {
   cursor: pointer;
   padding: 0 16px !important;
-  background: @baseThemeColor!important;
+  background: @baseThemeColor !important;
   color: #fff !important;
-  border-color: @baseThemeColor!important;
+  border-color: @baseThemeColor !important;
   transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 2;
 }
+
 .ivu-input-with-search:hover .ivu-input {
   border-color: @baseThemeColor;
 }
@@ -43,27 +45,40 @@
   outline: 0;
   box-shadow: 0 0 0 2px rgba(206, 159, 105, 0.2);
 }
+
+// button
+
+.ivu-btn-circle,
+.ivu-btn-circle-outline {
+  border-radius: 20px;
+}
+
 // menu
 .ivu-menu {
   width: @baseVisibleWidth;
   margin: 0 auto;
 }
+
 .ivu-menu-item {
   font-size: 16px;
 }
+
 .ivu-menu-light {
   color: #fff;
   background-color: @baseThemeColor;
 }
-.ivu-menu-horizontal.ivu-menu-light{
-  &::after{
+
+.ivu-menu-horizontal.ivu-menu-light {
+  &::after {
     content: none;
   }
 }
+
 .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item,
 .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu {
   color: #fff;
 }
+
 .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active,
 .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover,
 .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu-active,
