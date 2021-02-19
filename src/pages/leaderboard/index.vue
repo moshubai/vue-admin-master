@@ -369,7 +369,6 @@
         line-height: 47px;
         font-size: 16px;
         overflow: hidden;
-        border-top: 1px dotted #eee;
         &.active {
           color: #f70;
         }
