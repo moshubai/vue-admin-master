@@ -5,6 +5,8 @@
     <div class="container_content">
       <router-view></router-view>
     </div>
+    <!-- 返回顶部 -->
+    <BackTop/>
     <!-- 底部版权 -->
     <CopyRight />
   </section>
@@ -16,7 +18,8 @@
     components: {
       HeaderCont: () => import('./header-cont'),
       NavMain: () => import('./nav-main'),
-      CopyRight: () => import('@/components/copyright')
+      CopyRight: () => import('@/components/copyright'),
+      BackTop: () => import('@/components/backtop')
     }
   }
 </script>

@@ -1,12 +1,19 @@
 <template>
   <div class="article_cont">
-    <h5>最新更新</h5>
-    <Table :columns="columns" :data="dataList"></Table>
+    <h5>{{ title }}</h5>
+    <Table :columns="columns" :data="dataList" @on-row-click="tableRowClick"></Table>
   </div>
 </template>
 
 <script>
+  import Api from '@/api'
   export default {
+    props: {
+      title: {
+        type: String,
+        default: '最新更新'
+      }
+    },
     data () {
       return {
         columns: [
@@ -36,89 +43,35 @@
             width: 100
           }
         ],
-        dataList: [
-          {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }, {
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }
-
-        ]
+        dataList: []
       }
+    },
+    computed: {},
+    methods: {
+      tableRowClick (row) {
+        const { id, category } = row
+        let query = {
+          id,
+          v: category
+        }
+        this.$router.push({
+          path: `/details/${id}`,
+          query
+        });
+      },
+      getInitData () {
+        let _this = this
+        Api.getHomeLatestUpdatelList()
+          .then(res => {
+            _this.dataList = res
+          })
+          .catch(e => {
+            console.log('e', e) // log
+          })
+      }
+    },
+    mounted () {
+      this.getInitData()
     }
   }
 </script>
@@ -141,7 +94,7 @@
   padding-left: 0px;
   padding-right: 0px;
 }
-/deep/.ivu-table th{
-    background-color: transparent;
+/deep/.ivu-table th {
+  background-color: transparent;
 }
 </style>

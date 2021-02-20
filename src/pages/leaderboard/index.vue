@@ -2,35 +2,47 @@
   <div class="leaderboard">
     <div class="leaderboard_left">
       <h5>热门推荐</h5>
-      <Table stripe :columns="columns" :data="dataList" @on-row-click="tableRowClick"></Table>
+      <Table
+        stripe
+        :columns="columns"
+        :data="dataList"
+        @on-row-click="tableRowClick"
+      ></Table>
     </div>
 
     <div class="leaderboard_right">
       <dl>
         <dt>热门推荐</dt>
-        <dd class="active">热门榜</dd>
-        <dd>点击榜</dd>
-        <dd>点击榜</dd>
-        <dd>点击榜</dd>
+        <dd
+          v-for="(item, i) in commList"
+          :key="i"
+          :class="{ active: item.active }"
+          @click="commItemFn(item)"
+        >
+          {{ item.title }}
+        </dd>
       </dl>
     </div>
+    <Loadcompl :isShow="isShow" />
   </div>
 </template>
 
 <script>
+  import Api from '@/api'
   export default {
     name: 'leaderboard-page',
     components: {},
     data () {
       return {
+        isShow: false,
         columns: [
           {
-            key: 'index',
+            key: 'id',
             width: 50,
             align: 'center',
             title: '序号',
             render: (h, params) => {
-              const bgc = +params.row.index > 5 ? '#999' : '#fc7403'
+              const bgc = +params.row.id > 5 ? '#999' : '#fc7403'
               return h(
                 'span',
                 {
@@ -46,7 +58,7 @@
                     background: bgc
                   }
                 },
-                params.row.index
+                params.row.id
               )
             }
           },
@@ -75,258 +87,75 @@
             width: 100
           }
         ],
-        dataList: [
+        dataList: [],
+        commList: [
           {
-            index: 1,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
+            title: '热门榜',
+            id: 1,
+            type: 1,
+            active: true
           },
           {
-            index: 2,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
+            title: '点击榜',
+            id: 2,
+            type: 2,
+            active: false
           },
           {
-            index: 3,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
+            title: '点击榜',
+            id: 3,
+            type: 3,
+            active: false
           },
           {
-            index: 4,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 5,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 6,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 7,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 8,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 9,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 10,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 11,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 12,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 13,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 14,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 15,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 16,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 17,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 18,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 19,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 20,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 21,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 22,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 23,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 24,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 25,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 26,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 27,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 28,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 29,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 30,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
+            title: '点击榜',
+            id: 4,
+            type: 4,
+            active: false
           }
         ]
       }
     },
     methods: {
+      commItemFn (item) {
+        this.commList.map(v => {
+          v.active = false
+          if (v.id === item.id) {
+            v.active = true
+          }
+        })
+        this.$nextTick(() => {
+          this.getInitData()
+        })
+      },
       tableRowClick (row) {
-        console.log('row', row); // log
-        this.$router.push(`/details/55555333`);
+        const { id, category } = row
+        let query = {
+          id,
+          v: category
+        }
+        this.$router.push({
+          path: `/details/${id}`,
+          query
+        })
+      },
+      getInitData () {
+        let _this = this
+        _this.isShow = true
+        Api.leaderboardApi()
+          .then(res => {
+            _this.dataList = res
+            _this.isShow = false
+          })
+          .catch(e => {
+            console.log('e', e) // log
+            _this.isShow = false
+          })
       }
-
     },
-    mounted () {}
+    mounted () {
+      this.getInitData()
+    }
   }
 </script>
 
@@ -376,7 +205,7 @@
         font-size: 16px;
         overflow: hidden;
         border-bottom: 1px dotted #eee;
-        &:last-child{
+        &:last-child {
           border-bottom: none;
         }
         &.active {

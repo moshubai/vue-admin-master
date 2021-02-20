@@ -34,6 +34,7 @@
 </template>
 
 <script>
+  import EventBus from '@/components/EventBus'
   export default {
     data () {
       return {}
@@ -43,6 +44,15 @@
     methods: {
       searchFn (val) {
         console.log(val)
+        let query = {
+          v: val
+        }
+        EventBus.$emit('event-search-btn', query)
+
+        this.$router.push({
+          path: '/allworks',
+          query
+        });
       }
     }
   }

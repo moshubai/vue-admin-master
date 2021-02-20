@@ -1,8 +1,8 @@
 <template>
   <div class="article_cont">
-    <h5>热门推荐</h5>
+    <h5>{{ title }}</h5>
     <ul class="article_ul">
-      <li v-for="(item, i) in articleList" :key="i">
+      <li v-for="(item, i) in recommendList" :key="i" @click="goDetaildPage(item)">
         <div class="img">
           <img :src="item.img" :alt="item.title" />
         </div>
@@ -13,67 +13,40 @@
         </div>
       </li>
     </ul>
-
   </div>
 </template>
 
 <script>
-  import pageh from '@/assets/images/base/pageh.jpg'
   export default {
-    data () {
-      return {
-        articleList: [
-          {
-            id: 1,
-            title: '标题1',
-            author: '作者',
-            content:
-              '内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容',
-            img: pageh
-          },
-          {
-            id: 1,
-            title: '标题1',
-            author: '作者',
-            content:
-              '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-            img: pageh
-          },
-          {
-            id: 1,
-            title: '标题1',
-            author: '作者',
-            content:
-              '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-            img: pageh
-          },
-          {
-            id: 1,
-            title: '标题1',
-            author: '作者',
-            content:
-              '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-            img: pageh
-          },
-          {
-            id: 1,
-            title: '标题1',
-            author: '作者',
-            content:
-              '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-            img: pageh
-          },
-          {
-            id: 1,
-            title: '标题1',
-            author: '作者',
-            content:
-              '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
-            img: pageh
-          }
-        ]
+    props: {
+      title: {
+        type: String,
+        default: '精品推荐'
+      },
+      recommendList: {
+        type: Array,
+        required: true,
+        default: () => []
       }
-    }
+    },
+    data () {
+      return {}
+    },
+    computed: {},
+    methods: {
+      goDetaildPage (item) {
+        const { id, category } = item
+        let query = {
+          id,
+          v: category
+        }
+        this.$router.push({
+          path: `/details/${id}`,
+          query
+        });
+      }
+    },
+    mounted () {}
   }
 </script>
 

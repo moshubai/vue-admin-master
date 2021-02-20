@@ -10,13 +10,13 @@
           姜子牙透过天眼，和黑袍视线对上。
         </p>
       </div>
-      <h5>评论区<em>(2条)</em><span>我也要评论</span></h5>
+      <h5>评论区<em>(2条)</em><span @click="meCommentFn">我也要评论</span></h5>
 
       <ul class="comment">
         <li>
           <div class="avatar">
             <Avatar
-              size="large"
+              :size="50"
               src="https://i.loli.net/2017/08/21/599a521472424.jpg"
             />
           </div>
@@ -31,7 +31,67 @@
         <li>
           <div class="avatar">
             <Avatar
-              size="large"
+              :size="50"
+              src="https://i.loli.net/2017/08/21/599a521472424.jpg"
+            />
+          </div>
+          <div class="comment_info">
+            <h6>墨书白</h6>
+            <p class="info">
+              真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！
+            </p>
+            <p class="date">2020-12-18 16:32:18</p>
+          </div>
+        </li>
+        <li>
+          <div class="avatar">
+            <Avatar
+              :size="50"
+              src="https://i.loli.net/2017/08/21/599a521472424.jpg"
+            />
+          </div>
+          <div class="comment_info">
+            <h6>墨书白</h6>
+            <p class="info">
+              真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！
+            </p>
+            <p class="date">2020-12-18 16:32:18</p>
+          </div>
+        </li>
+        <li>
+          <div class="avatar">
+            <Avatar
+              :size="50"
+              src="https://i.loli.net/2017/08/21/599a521472424.jpg"
+            />
+          </div>
+          <div class="comment_info">
+            <h6>墨书白</h6>
+            <p class="info">
+              真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！
+            </p>
+            <p class="date">2020-12-18 16:32:18</p>
+          </div>
+        </li>
+        <li>
+          <div class="avatar">
+            <Avatar
+              :size="50"
+              src="https://i.loli.net/2017/08/21/599a521472424.jpg"
+            />
+          </div>
+          <div class="comment_info">
+            <h6>墨书白</h6>
+            <p class="info">
+              真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！！真精彩，真棒！真精彩，真棒！真精彩，真棒！真精彩，真棒！
+            </p>
+            <p class="date">2020-12-18 16:32:18</p>
+          </div>
+        </li>
+        <li>
+          <div class="avatar">
+            <Avatar
+              :size="50"
               src="https://i.loli.net/2017/08/21/599a521472424.jpg"
             />
           </div>
@@ -47,7 +107,7 @@
       <div class="lookmore">
         <span>查看全部评论<Icon type="ios-arrow-forward"/></span>
       </div>
-      <div class="take_comment">
+      <div class="take_comment" ref="takeComment">
         <p>发表评论</p>
         <Input
           v-model="textareaCont"
@@ -68,6 +128,7 @@
 </template>
 
 <script>
+  import util from '@/libs/util'
   export default {
     components: {
       AvatarInfo: () => import('./avatar-info'),
@@ -78,7 +139,12 @@
         textareaCont: ''
       }
     },
-    methods: {},
+    methods: {
+      meCommentFn () {
+        const sTop = this.$refs.takeComment.offsetTop
+        util.scrollTop(this.$refs.takeComment, 0, sTop, 1000)
+      }
+    },
     mounted () {}
   }
 </script>
@@ -111,6 +177,7 @@
         margin-left: 8px;
       }
       span {
+        cursor: pointer;
         float: right;
         display: block;
         color: #333;
@@ -158,8 +225,8 @@
         }
       }
       .avatar {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         overflow: hidden;
         display: block;
         margin-right: 15px;

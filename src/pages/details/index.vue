@@ -2,7 +2,7 @@
   <div class="details">
     <Breadcrumb>
       <BreadcrumbItem to="/">首页</BreadcrumbItem>
-      <BreadcrumbItem to="/components/breadcrumb">武侠仙侠</BreadcrumbItem>
+      <BreadcrumbItem :to="`/allworks?v=${navCenter}`">{{navCenter}}</BreadcrumbItem>
       <BreadcrumbItem>详情</BreadcrumbItem>
     </Breadcrumb>
     <!--  -->
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  // import { mapActions } from 'vuex'
   export default {
     name: 'details-page',
     components: {
@@ -22,23 +22,26 @@
       DetailsArticle: () => import('./tepl/details-article.vue')
     },
     data () {
-      return {}
-    },
-    methods: {
-      ...mapActions('account', ['login']),
-      submitForm () {
-        this.login({
-          username: 123,
-          password: 10000
-        }).then(res => {
-          this.$router.replace({
-            path: '/home'
-          })
-        })
+      return {
+        navCenter: '武侠仙侠'
       }
     },
+    methods: {
+      // ...mapActions('account', ['login']),
+      // submitForm () {
+      //   this.login({
+      //     username: 123,
+      //     password: 10000
+      //   }).then(res => {
+      //     this.$router.replace({
+      //       path: '/home'
+      //     })
+      //   })
+      // }
+    },
     mounted () {
-      console.log('store', this.$store) // log
+      const { v } = this.$route.query
+      this.navCenter = v
     }
   }
 </script>

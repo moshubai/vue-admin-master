@@ -7,6 +7,7 @@
         :key="i"
         @mouseenter="hoverFn(item)"
         @mouseleave="hoverFnLeave(item)"
+        @click="goDetaildPage(item)"
       >
         <i class="index_i" :class="`${i + 1 < 4 ? 'topThree' : ''}`">{{
           i + 1
@@ -48,6 +49,17 @@
       }
     },
     methods: {
+      goDetaildPage (item) {
+        const { id, category } = item
+        let query = {
+          id,
+          v: category
+        }
+        this.$router.push({
+          path: `/details/${id}`,
+          query
+        });
+      },
       hoverFn (item) {
         console.log('0000')
         this.swipeAside.map(v => {

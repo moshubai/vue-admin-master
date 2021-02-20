@@ -21,7 +21,7 @@
 // base color
 .ivu-input {
   border: 1px solid @baseThemeColor;
-  border-radius: 0.463vh;
+  border-radius: 5px;
 }
 
 .ivu-input-search {
@@ -33,6 +33,11 @@
   transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 2;
+}
+
+.ivu-input-search:hover {
+  background: @baseThemeColor!important;
+  border-color: @baseThemeColor!important;
 }
 
 .ivu-input-with-search:hover .ivu-input {
@@ -53,18 +58,18 @@
   border-radius: 20px;
 }
 .ivu-btn:hover {
-  color: #f80;
+  color: @baseThemeColor;
   background-color: #fff;
-  border-color: #f80;
+  border-color: @baseThemeColor;
 }
 .ivu-btn-primary {
   color: #fff;
-  background-color: #f80;
-  border-color: #f80;
+  background-color: @baseThemeColor;
+  border-color: @baseThemeColor;
   &:hover {
     color: #fff;
-    background-color: #f80;
-    border-color: #f80;
+    background-color: @baseThemeColor;
+    border-color: @baseThemeColor;
   }
 }
 
@@ -101,4 +106,12 @@
 .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover {
   color: #fff;
   border-bottom: 2px solid #fff;
+}
+
+// loading
+.ivu-spin-fix{
+  z-index: 1008;
+}
+.ivu-spin{
+  color: @baseThemeColor;
 }

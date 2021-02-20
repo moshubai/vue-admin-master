@@ -2,25 +2,26 @@
   <div class="home_content">
     <div class="swipe_container">
       <CarouselTepl />
-      <RightAside :swipeAside="swipeAside" />
+      <RightAside :swipeAside="swipeAside.swipeAside"  title="本周强推"/>
     </div>
     <div class="article_container">
-      <ArticleCont />
-      <RightAside :swipeAside="articleAside" />
+      <ArticleCont title="精品推荐" :recommendList='boutiquelRecommendList'/>
+      <RightAside :swipeAside="swipeAside.articleAside"  title="热门推荐"/>
     </div>
     <div class="article_container">
-      <ArticleCont />
-      <RightAside :swipeAside="articleAsideTwo" />
+      <ArticleCont title="热门推荐" :recommendList='hotlRecommendList'/>
+      <RightAside :swipeAside="swipeAside.articleAsideTwo"  title="热门推荐"/>
     </div>
     <div class="table_container">
-      <TableCont />
-      <RightAside :swipeAside="TableAside" />
+      <TableCont title="最新更新"/>
+      <RightAside :swipeAside="swipeAside.TableAside" title="热门推荐" />
     </div>
+    <Loadcompl :isShow="isShow" />
   </div>
 </template>
 
 <script>
-  import absie from '@/assets/images/base/absie.jpg'
+  import Api from '@/api'
   export default {
     name: 'home-page-index',
     components: {
@@ -31,263 +32,53 @@
     },
     data () {
       return {
-        swipeAside: [
-          {
-            id: 1,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: true
-          },
-          {
-            id: 2,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 3,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 4,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 5,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          }
-        ],
-        articleAside: [
-          {
-            id: 1,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: true
-          },
-          {
-            id: 2,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 3,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 4,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 5,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 6,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 7,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 8,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 9,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 10,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          }
-        ],
-        articleAsideTwo: [
-          {
-            id: 1,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: true
-          },
-          {
-            id: 2,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 3,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 4,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 5,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 6,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 7,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 8,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 9,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 10,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          }
-        ],
-        TableAside: [
-          {
-            id: 1,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: true
-          },
-          {
-            id: 2,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 3,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 4,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 5,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 6,
-            title: '标题1',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 7,
-            title: '标题2',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 8,
-            title: '标题3',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 9,
-            title: '标题4',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          },
-          {
-            id: 10,
-            title: '标题5',
-            content: '详情1详情1详情1详情1详情1详情1',
-            img: absie,
-            show: false
-          }
-        ]
+        isShow: false,
+        swipeAside: {
+          swipeAside: [],
+          articleAside: [],
+          articleAsideTwo: [],
+          TableAside: []
+        },
+        boutiquelRecommendList: [],
+        hotlRecommendList: []
       }
     },
     computed: {},
-    methods: {}
+    methods: {
+      async getInitData () {
+        let _this = this
+        _this.isShow = true
+        await Api.getHomeAsideList()
+          .then(res => {
+            console.log('res', res) // log
+            _this.swipeAside = res
+          })
+          .catch(e => {
+            console.log('e', e) // log
+          })
+
+        await Api.getHomeBoutiquelRecommendList()
+          .then(res => {
+            console.log('res', res) // log
+            _this.boutiquelRecommendList = res
+          })
+          .catch(e => {
+            console.log('e', e) // log
+          })
+        await Api.getHomeHotRecommendList()
+          .then(res => {
+            console.log('res', res) // log
+            _this.hotlRecommendList = res
+          })
+          .catch(e => {
+            console.log('e', e) // log
+          })
+        _this.isShow = false
+      }
+    },
+    mounted () {
+      this.getInitData()
+    }
   }
 </script>
 <style lang="less" scoped>

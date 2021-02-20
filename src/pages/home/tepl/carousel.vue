@@ -1,8 +1,8 @@
 <template>
   <div class="carousel">
     <!-- autoplay -->
-    <Carousel style="height: 100%" autoplay v-model="pageIndex" loop>
-      <CarouselItem v-for="(item, i) in carouseList" :key="i">
+    <Carousel style="height: 100%" autoplay v-model="pageIndex" loop @on-click='goDetaildPage'>
+      <CarouselItem v-for="(item, i) in carouseList" :key="i" >
         <div class="demo_carousel">
           <div class="img">
             <img :src="item.img" :alt="item.title" />
@@ -10,7 +10,7 @@
           <div class="details">
             <div>
               <h5>{{ item.title }}</h5>
-              <h6>{{ item.subtitle }}</h6>
+              <h6 v-if="item.subtitle !== ''">{{ item.subtitle }}</h6>
             </div>
             <p>{{ item.author }}</p>
             <p>{{ item.content }}</p>
@@ -22,56 +22,46 @@
 </template>
 
 <script>
-  import img from '@/assets/images/base/home.jpg'
+  import Api from '@/api'
   export default {
     data () {
       return {
         pageIndex: 0,
-        carouseList: [
-          {
-            img: img,
-            title: '标题1',
-            content:
-              '详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情',
-            author: 'Mister·Fang',
-            subtitle: '副标题，有就显示',
-            id: 1
-          },
-          {
-            img: img,
-            title: '标题1',
-            content:
-              '详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情',
-            author: 'Mister·Fang',
-            subtitle: '副标题，有就显示',
-            id: 1
-          },
-          {
-            img: img,
-            title: '标题1',
-            content:
-              '详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情',
-            author: 'Mister·Fang',
-            subtitle: '副标题，有就显示',
-            id: 1
-          },
-          {
-            img: img,
-            title: '标题1',
-            content:
-              '详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情',
-            author: 'Mister·Fang',
-            subtitle: '副标题，有就显示',
-            id: 1
-          }
-        ]
+        carouseList: []
       }
+    },
+    computed: {},
+    methods: {
+      goDetaildPage (item) {
+        const { id, category } = this.carouseList[item]
+        let query = {
+          id,
+          v: category
+        }
+        this.$router.push({
+          path: `/details/${id}`,
+          query
+        });
+      },
+      getInitData () {
+        let _this = this
+        Api.getHomeCarouselList()
+          .then(res => {
+            _this.carouseList = res
+          })
+          .catch(e => {
+            console.log('e', e) // log
+          })
+      }
+    },
+    mounted () {
+      this.getInitData()
     }
   }
 </script>
 
 <style lang="less" scoped>
-/deep/.ivu-carousel-dots-inside{
+/deep/.ivu-carousel-dots-inside {
   bottom: -2px;
 }
 .carousel {
@@ -117,7 +107,7 @@
         font-weight: 500;
         width: 100%;
       }
-      p{
+      p {
         color: #999999;
         line-height: 1.5;
         padding-bottom: 13px;

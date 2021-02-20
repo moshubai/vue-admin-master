@@ -1,63 +1,8 @@
 <template>
   <div class="allworks">
-    <div class="allworks_container">
-      <ul class="list">
-        <li>
-          <div class="left">
-            作品频道：
-          </div>
-          <div class="right">
-            <span class="active">男频</span>
-            <span>女频</span>
-          </div>
-        </li>
-        <li>
-          <div class="left">
-            作品分类：
-          </div>
-          <div class="right">
-            <span class="active">不限</span>
-            <span>玄幻奇幻</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span>
-          </div>
-        </li>
-        <li>
-          <div class="left">
-            作品频道：
-          </div>
-          <div class="right">
-            <span class="active">不限</span>
-            <span>女频</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span>
-          </div>
-        </li>
-        <li>
-          <div class="left">
-            作品频道：
-          </div>
-          <div class="right">
-            <span class="active">不限</span>
-            <span>女频</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span>
-          </div>
-        </li>
-        <li>
-          <div class="left">
-            作品频道：
-          </div>
-          <div class="right">
-            <span class="active">不限</span>
-            <span>女频</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span><span>玄幻奇幻</span><span>玄幻奇幻</span
-            ><span>玄幻奇幻</span>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <FilterList :isFromSearch="isFromSearch" @filter-search='filterSearchFn' v-if="ifShow" />
     <div class="allworks_table">
-      <Table stripe :columns="columns" :data="dataList"></Table>
+      <Table stripe :columns="columns" :data="dataList"  @on-row-click="tableRowClick"></Table>
       <Pagecompl
         :pageTotal="table.pageTotal"
         :pageNum="table.pageIndex"
@@ -66,28 +11,36 @@
         @onChangeHandlePage="changePageSize"
       />
     </div>
+    <Loadcompl :isShow="isShow" />
   </div>
 </template>
 
 <script>
+  // import EventBus from '@/components/EventBus'
+  import Api from '@/api'
   export default {
     name: 'allworks-page',
-    components: {},
+    components: {
+      FilterList: () => import('./tepl/filter-list')
+    },
     data () {
       return {
+        isFromSearch: false,
+        ifShow: true,
+        isShow: false,
         table: {
           pageTotal: 10,
-          pageSize: 10,
+          pageSize: 20,
           pageIndex: 1
         },
         columns: [
           {
-            key: 'index',
+            key: 'id',
             width: 50,
             align: 'center',
             title: '序号',
             render: (h, params) => {
-              const bgc = +params.row.index > 5 ? '#999' : '#fc7403'
+              const bgc = +params.row.id > 5 ? '#999' : '#fc7403'
               return h(
                 'span',
                 {
@@ -103,7 +56,7 @@
                     background: bgc
                   }
                 },
-                params.row.index
+                params.row.id
               )
             }
           },
@@ -132,226 +85,101 @@
             width: 100
           }
         ],
-        dataList: [
-          {
-            index: 1,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 2,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 3,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 4,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 5,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 6,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 7,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 8,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 9,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 10,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 11,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 12,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 13,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 14,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 15,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 16,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 17,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 18,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 19,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          },
-          {
-            index: 20,
-            name: '[玄幻奇幻]',
-            age: '我的亡灵小弟有点多',
-            address: '第十三卷 第二章 于常夏降下的大雪',
-            author: '西红柿吃鸡蛋',
-            date: '2016-10-03'
-          }
-        ]
+        dataList: []
       }
     },
     methods: {
+      filterSearchFn (params) {
+        Object.assign(this.table, params)
+        this.$nextTick(() => {
+          this.getInitData()
+        })
+      },
+      tableRowClick (row) {
+        const { id, category } = row
+        let query = {
+          id,
+          v: category
+        }
+        this.$router.push({
+          path: `/details/${id}`,
+          query
+        });
+      },
       changepage (index) {
         console.log(index)
         this.table.pageIndex = index
-        // this.$nextTick(() => {
-        //   this.getDataFn()
-        // })
+        this.$nextTick(() => {
+          this.getInitData()
+        })
       },
       changePageSize (value) {
         this.table.pageSize = value
-        // this.$nextTick(() => {
-        //   this.getDataFn()
-        // })
+        this.$nextTick(() => {
+          this.getInitData()
+        })
+      },
+      getInitData () {
+        let _this = this
+        _this.isShow = true
+        Api.allworksList(this.table)
+          .then(res => {
+            _this.dataList = res
+            _this.isShow = false
+          })
+          .catch(e => {
+            console.log('e', e) // log
+            _this.isShow = false
+          })
+      },
+      handleQueryState (route) {
+        console.log('route', route); // log
+        const { query } = route
+        this.ifShow = false
+        let flag = Reflect.has(query, 'v');
+        if (flag) {
+          this.isFromSearch = true
+        } else {
+          this.isFromSearch = false
+        }
+        this.$nextTick(() => {
+          this.ifShow = true
+        })
       }
     },
-    mounted () {}
+    watch: {
+      $route: {
+        handler (val) {
+          this.handleQueryState(val)
+        },
+        immediate: true
+      }
+    },
+    mounted () {
+      this.getInitData()
+      // 路由监听，可以不需要
+      // EventBus.$on('event-search-btn', query => {
+      //   // 搜索启用
+      //   this.ifShow = false
+      //   const { v } = query
+      //   console.log('vvvvvv', v); // log
+      //   if (v === '' || v === null || v === undefined) {
+      //     this.isFromSearch = false
+      //   } else {
+      //     this.isFromSearch = true
+      //   }
+      //   this.$nextTick(() => {
+      //     this.ifShow = true
+      //   })
+      // })
+    }
   }
 </script>
 
 <style lang="less" scoped>
 .allworks {
   width: 100%;
-  &_container {
-    width: 100%;
-    padding: 20px 15px;
-    background: #fff;
-    display: flex;
-    display: -webkit-flex;
-    border-radius: 6px;
-    .list {
-      width: 100%;
-      li {
-        width: 100%;
-        display: flex;
-        display: -webkit-flex;
-        padding: 0 0 24px;
-        &:last-child {
-          padding: 0;
-        }
-        .left {
-          width: 90px;
-          color: #999;
-        }
-        .right {
-          flex: 1;
-          span {
-            color: #333;
-            padding: 0px 10px;
-            &.active {
-              color: #f70;
-            }
-          }
-        }
-      }
-    }
-  }
+
   &_table {
     margin-top: 15px;
     width: 100%;
